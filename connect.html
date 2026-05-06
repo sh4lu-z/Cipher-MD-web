@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Bot | CIPTER-MD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
+    
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/connect.css">
+
+    <!-- Libraries -->
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-brand">
+            <div style="display:flex; align-items:center;">
+                <a href="javascript:history.back()" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <div class="logo">CIPTER<span>-MD</span></div>
+            </div>
+            <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" data-key="nav_home">Home</a>
+            <button id="lang-toggle" class="lang-btn">සිංහල</button>
+        </div>
+    </nav>
+
+    <main class="connect-container">
+        <div class="glass-card connect-card">
+            <h2 data-key="connect_title">Link WhatsApp Bot</h2>
+            <p class="connect-subtitle" data-key="connect_subtitle">Secure Session Bridge</p>
+            
+            <div class="toggle-box">
+                <button class="t-btn active" onclick="switchTab('pair')" data-key="tab_pair">PAIR CODE</button>
+                <button class="t-btn" onclick="switchTab('qr')" data-key="tab_qr">QR SCAN</button>
+            </div>
+
+            <!-- PAIRING VIEW -->
+            <div id="pair-view" class="view-section active">
+                <p style="text-align: left; margin-bottom: 5px; font-size: 0.85rem; color: var(--text-secondary);" data-key="pair_instruction">Select country & enter your phone number.</p>
+                <div class="input-group">
+                    <div class="phone-wrapper">
+                        <input type="tel" id="phone-number" class="aura-input full-width">
+                    </div>
+                    <button id="get-code-btn" class="btn primary-btn full-width" data-key="get_code_btn">Get Pairing Code</button>
+                </div>
+
+                <div id="pairing-code-display" class="pairing-code-display hidden">
+                    <p data-key="your_code">Your Pairing Code:</p>
+                    <div class="code-box">
+                        <span id="p-code" class="code-text">...</span>
+                        <button id="copy-btn" class="icon-btn" title="Copy Code">📋</button>
+                    </div>
+                    <p class="small-text" data-key="code_instruction">Enter this code on your WhatsApp linked devices screen.</p>
+                </div>
+            </div>
+
+            <!-- QR VIEW -->
+            <div id="qr-view" class="view-section hidden">
+                <div id="qr-container" class="qr-box glass">
+                    <i class="fa-solid fa-qrcode fa-3x" style="color:var(--text-secondary); opacity:0.5;"></i>
+                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:10px;" data-key="qr_click_start">Click Start to Generate</p>
+                </div>
+                <button class="btn primary-btn full-width" onclick="startQR()" id="qr-btn">
+                    <i class="fa-solid fa-play"></i> <span data-key="qr_start_btn">START SYNC</span>
+                </button>
+            </div>
+
+            <div id="success-msg" class="success-msg hidden">
+                <p data-key="success_msg">✅ Session Connected Successfully!</p>
+            </div>
+
+            <div id="loading-spinner" class="spinner hidden"></div>
+        </div>
+    </main>
+
+    <footer class="modern-footer">
+        <div class="footer-content">
+            <div class="footer-col brand">
+                <h3>CIPTER<span>-MD</span></h3>
+                <p data-key="footer_desc">Advanced WhatsApp AI Bot Core Engine. Built for performance, security, and seamless automation.</p>
+            </div>
+            <div class="footer-col links">
+                <h4 data-key="footer_links">QUICK LINKS</h4>
+                <ul>
+                    <li><a href="updates.html" data-key="nav_updates"><i class="fa-solid fa-clock-rotate-left"></i> Updates & Changelog</a></li>
+                    <li><a href="privacy-policy.html" data-key="footer_privacy"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html" data-key="footer_terms"><i class="fa-solid fa-file-contract"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col connect">
+                <h4 data-key="footer_connect">CONNECT</h4>
+                <div class="social-icons">
+                    <a href="https://whatsapp.com/channel/0029Vb6o3EiGJP8CoA3Olr28" target="_blank" title="WhatsApp Channel" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://sh4lu-z.vercel.app/contact/" target="_blank" title="Contact sh4lu_z" class="social-btn"><i class="fa-solid fa-globe"></i></a>
+                    <a href="https://github.com/sh4lu-z" target="_blank" title="GitHub" class="social-btn"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Shaluka Gimhan (sh4lu-z). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="api/pairing.js"></script>
+</body>
+</html>
