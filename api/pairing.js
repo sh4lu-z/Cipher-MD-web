@@ -52,7 +52,7 @@ window.startQR = function() {
     qrContainer.innerHTML = `<span class="loader spinner" style="width:30px;height:30px;margin:0;"></span><p style="color:var(--text-secondary); font-size:0.85rem; margin-top:10px;">${translations[currentLang].qr_loading}</p>`;
     btn.disabled = true;
 
-    socket.emit('start-session', { usePairingCode: false, bot: "cipher-md" });
+    socket.emit('start-session', { usePairingCode: false, bot: "cipherMD" });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         getCodeBtn.textContent = translations[currentLang].connecting;
 
         showToast(translations[currentLang].toast_req_code, "info");
-        socket.emit('start-session', { usePairingCode: true, phoneNumber: fullNumber, bot: "cipher-md" });
+        socket.emit('start-session', { usePairingCode: true, phoneNumber: fullNumber, bot: "cipherMD" });
     });
 
     socket.on('qr', (data) => {
