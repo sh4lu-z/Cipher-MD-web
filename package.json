@@ -1,6 +1,4 @@
 {
-    "name": "cipher-md-gatekeeper",
-    "version": "1.0.0",
     "dependencies": {
         "speakeasy": "^2.0.0"
     }
