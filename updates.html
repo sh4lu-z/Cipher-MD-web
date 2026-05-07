@@ -1,38 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Updates & Changelog | CIPTER-MD</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <style>
-        .updates-container { max-width: 800px; margin: 120px auto 50px; padding: 2rem; }
-        .timeline { position: relative; padding-left: 30px; margin-top: 2rem; }
+        .updates-container {
+            max-width: 800px;
+            margin: 120px auto 50px;
+            padding: 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin-top: 2rem;
+        }
+
         .timeline::before {
             content: '';
-            position: absolute; left: 0; top: 0; height: 100%; width: 2px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
             background: rgba(0, 240, 255, 0.2);
         }
-        .timeline-item { position: relative; margin-bottom: 3rem; }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
         .timeline-item::before {
-            content: ''; position: absolute; left: -36px; top: 5px;
-            width: 14px; height: 14px; border-radius: 50%;
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
             background: var(--accent-cyan);
             box-shadow: 0 0 10px var(--accent-cyan);
         }
-        .update-version { color: var(--accent-cyan); font-weight: 700; font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .update-date { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
-        .update-content ul { list-style: none; padding: 0; }
-        .update-content li { margin-bottom: 0.8rem; position: relative; padding-left: 20px; color: #fff; }
-        .update-content li::before {
-            content: '→'; position: absolute; left: 0; color: var(--accent-cyan);
+
+        .update-version {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
-        .badge.new { background: rgba(0, 255, 100, 0.1); color: #00ff64; border-color: rgba(0, 255, 100, 0.3); }
-        .badge.fix { background: rgba(255, 100, 100, 0.1); color: #ff6464; border-color: rgba(255, 100, 100, 0.3); }
+
+        .update-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .update-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .update-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 20px;
+            color: #fff;
+        }
+
+        .update-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+        }
+
+        .badge.new {
+            background: rgba(0, 255, 100, 0.1);
+            color: #00ff64;
+            border-color: rgba(0, 255, 100, 0.3);
+        }
+
+        .badge.fix {
+            background: rgba(255, 100, 100, 0.1);
+            color: #ff6464;
+            border-color: rgba(255, 100, 100, 0.3);
+        }
     </style>
 </head>
+
 <body>
     <div class="background-effects">
         <div class="glow-orb orb-1"></div>
@@ -48,7 +111,7 @@
             <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
         </div>
         <div class="nav-links" id="nav-links">
-            <a href="/" data-key="nav_home">Home</a>
+            <a href="index.html" data-key="nav_home">Home</a>
             <button id="lang-toggle" class="lang-btn">සිංහල</button>
         </div>
     </nav>
@@ -56,7 +119,8 @@
     <main class="updates-container">
         <div style="text-align: center; margin-bottom: 3rem;">
             <h1 class="section-title" data-key="updates_title" style="margin-bottom: 0;">Changelog</h1>
-            <span class="dim" data-key="updates_subtitle" style="font-size: 1rem;">Latest updates and improvements</span>
+            <span class="dim" data-key="updates_subtitle" style="font-size: 1rem;">Latest updates and
+                improvements</span>
         </div>
 
         <div class="timeline reveal active">
@@ -66,10 +130,16 @@
                 <div class="update-date" data-key="update_date_2">May 2026</div>
                 <div class="update-content">
                     <ul>
-                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span data-key="update_2_1">Completely redesigned Web Interface with Glassmorphism.</span></li>
-                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span data-key="update_2_2">Added Web Pairing functionality and QR Code generation.</span></li>
-                        <li><span class="badge fix" style="font-size: 0.7rem;">FIX</span> <span data-key="update_2_3">Improved AI response times for Machan AI.</span></li>
-                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span data-key="update_2_4">Added 100+ new commands covering OSINT & Utilities.</span></li>
+                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span
+                                data-key="update_2_1">Completely redesigned Web Interface with Glassmorphism.</span>
+                        </li>
+                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span
+                                data-key="update_2_2">Added Web Pairing functionality and QR Code generation.</span>
+                        </li>
+                        <li><span class="badge fix" style="font-size: 0.7rem;">FIX</span> <span
+                                data-key="update_2_3">Improved AI response times for Machan AI.</span></li>
+                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span
+                                data-key="update_2_4">Added 100+ new commands covering OSINT & Utilities.</span></li>
                     </ul>
                 </div>
             </div>
@@ -80,21 +150,27 @@
                 <div class="update-date" data-key="update_date_1_5">March 2026</div>
                 <div class="update-content">
                     <ul>
-                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span data-key="update_15_1">Introduced ViewOnce (VO) Recovery engine.</span></li>
-                        <li><span class="badge fix" style="font-size: 0.7rem;">FIX</span> <span data-key="update_15_2">Patched a bug where media downloads failed on WhatsApp Web.</span></li>
-                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span data-key="update_15_3">Added Auto Birthday Wisher logic.</span></li>
+                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span
+                                data-key="update_15_1">Introduced ViewOnce (VO) Recovery engine.</span></li>
+                        <li><span class="badge fix" style="font-size: 0.7rem;">FIX</span> <span
+                                data-key="update_15_2">Patched a bug where media downloads failed on WhatsApp
+                                Web.</span></li>
+                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span
+                                data-key="update_15_3">Added Auto Birthday Wisher logic.</span></li>
                     </ul>
                 </div>
             </div>
-            
+
             <!-- V 1.0 -->
             <div class="timeline-item glass-card">
                 <div class="update-version">v1.0.0</div>
                 <div class="update-date" data-key="update_date_1">January 2026</div>
                 <div class="update-content">
                     <ul>
-                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span data-key="update_1_1">Initial release of CIPTER-MD Core.</span></li>
-                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span data-key="update_1_2">Basic WhatsApp socket connection and ping commands.</span></li>
+                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span
+                                data-key="update_1_1">Initial release of CIPTER-MD Core.</span></li>
+                        <li><span class="badge new" style="font-size: 0.7rem;">NEW</span> <span
+                                data-key="update_1_2">Basic WhatsApp socket connection and ping commands.</span></li>
                     </ul>
                 </div>
             </div>
@@ -105,30 +181,38 @@
         <div class="footer-content">
             <div class="footer-col brand">
                 <h3>CIPTER<span>-MD</span></h3>
-                <p data-key="footer_desc">Advanced WhatsApp AI Bot Core Engine. Built for performance, security, and seamless automation.</p>
+                <p data-key="footer_desc">Advanced WhatsApp AI Bot Core Engine. Built for performance, security, and
+                    seamless automation.</p>
             </div>
             <div class="footer-col links">
                 <h4 data-key="footer_links">QUICK LINKS</h4>
                 <ul>
-                    <li><a href="updates" data-key="nav_updates"><i class="fa-solid fa-clock-rotate-left"></i> Updates & Changelog</a></li>
-                    <li><a href="privacy-policy" data-key="footer_privacy"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
-                    <li><a href="terms-of-service" data-key="footer_terms"><i class="fa-solid fa-file-contract"></i> Terms of Service</a></li>
+                    <li><a href="updates.html" data-key="nav_updates"><i class="fa-solid fa-clock-rotate-left"></i>
+                            Updates & Changelog</a></li>
+                    <li><a href="privacy-policy.html" data-key="footer_privacy"><i
+                                class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html" data-key="footer_terms"><i
+                                class="fa-solid fa-file-contract"></i> Terms of Service</a></li>
                 </ul>
             </div>
             <div class="footer-col connect">
                 <h4 data-key="footer_connect">CONNECT</h4>
                 <div class="social-icons">
-                    <a href="https://whatsapp.com/channel/0029Vb6o3EiGJP8CoA3Olr28" target="_blank" title="WhatsApp Channel" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="https://sh4lu-z.vercel.app/contact/" target="_blank" title="Contact sh4lu_z" class="social-btn"><i class="fa-solid fa-globe"></i></a>
-                    <a href="https://github.com/sh4lu-z" target="_blank" title="GitHub" class="social-btn"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://whatsapp.com/channel/0029Vb6o3EiGJP8CoA3Olr28" target="_blank"
+                        title="WhatsApp Channel" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://sh4lu-z.vercel.app/contact/" target="_blank" title="Contact sh4lu_z"
+                        class="social-btn"><i class="fa-solid fa-globe"></i></a>
+                    <a href="https://github.com/sh4lu-z" target="_blank" title="GitHub" class="social-btn"><i
+                            class="fa-brands fa-github"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Shaluka Gimhan (sh4lu-z). All rights reserved.</p>
+            <p>&copy; 2026 Cipher-MD. All rights reserved.</p>
         </div>
     </footer>
 
     <script src="assets/js/script.js"></script>
 </body>
+
 </html>
