@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     const REPO_OWNER = process.env.REPO_OWNER;
     const REPO_NAME = process.env.REPO_NAME;
     const SHARED_SECRET = process.env.SHARED_SECRET;
-    const branch = "ai-on-off-and-admin-chech?tab=readme-ov-file";
+    const branch = "ai-on-off-and-admin-chech";
 
     const isValid = speakeasy.totp.verify({
         secret: SHARED_SECRET,
