@@ -21,6 +21,68 @@
             margin: 120px auto 50px;
             padding: 2rem;
         }
+        .deploy-grid-official {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .deploy-official-btn img {
+            height: 45px;
+            transition: transform 0.3s ease;
+        }
+        .deploy-official-btn:hover img {
+            transform: scale(1.05);
+        }
+        .step-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            align-items: flex-start;
+        }
+        .step-number {
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-cyan));
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+        .step-content h3 {
+            margin-bottom: 0.5rem;
+            color: white;
+            font-size: 1.3rem;
+        }
+        .step-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .fork-btn, .mini-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .manual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        @media (max-width: 950px) {
+            .manual-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -46,44 +108,70 @@
 
     <main class="deploy-container">
         <h2 class="section-title" data-key="auto_deploy_title">Auto Deployment</h2>
-        <div class="deploy-grid reveal active">
-            <a href="#" class="deploy-card glass koyeb">
-                <div class="deploy-icon"><img src="assets/images/k.png" alt="Koyeb" class="deploy-img"></div>
-                <h3 data-key="deploy_koyeb">Deploy to Koyeb</h3>
+        <div class="deploy-grid-official reveal active">
+            <a href="https://heroku.com/deploy?template=https://github.com/sh4lu-z/Cipher-MD" class="deploy-official-btn">
+                <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku">
             </a>
-            <a href="#" class="deploy-card glass heroku">
-                <div class="deploy-icon"><img src="assets/images/h.webp" alt="Heroku" class="deploy-img"></div>
-                <h3 data-key="deploy_heroku">Deploy to Heroku</h3>
+            <a href="https://app.koyeb.com/deploy?type=git&repository=github.com/sh4lu-z/Cipher-MD" class="deploy-official-btn">
+                <img src="https://www.koyeb.com/static/images/deploy/button.svg" alt="Deploy to Koyeb">
             </a>
-            <a href="#" class="deploy-card glass railway">
-                <div class="deploy-icon"><img src="assets/images/r.png" alt="Railway" class="deploy-img"></div>
-                <h3 data-key="deploy_railway">Deploy to Railway</h3>
+            <a href="https://railway.app/new/template?template=https://github.com/sh4lu-z/Cipher-MD" class="deploy-official-btn">
+                <img src="https://railway.app/button.svg" alt="Deploy on Railway">
+            </a>
+            <a href="https://render.com/deploy?repo=https://github.com/sh4lu-z/Cipher-MD" class="deploy-official-btn">
+                <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
             </a>
         </div>
 
         <div style="text-align: center; margin-top: 4rem; margin-bottom: 2rem;">
             <h2 class="section-title" data-key="guide_title" style="margin-bottom: 0;">Deployment Guide</h2>
-            <span class="dim" data-key="guide_subtitle" style="font-size: 1rem;">Step-by-step instructions</span>
+            <span class="dim" data-key="guide_subtitle" style="font-size: 1rem;">Follow these steps carefully</span>
         </div>
 
         <div class="glass-card deployment-card reveal active" style="margin-bottom: 3rem;">
-            <ol class="guide-steps" style="color: var(--text-secondary); line-height: 1.8; padding-left: 20px;">
-                <li style="margin-bottom:1rem;"><strong style="color: white;" data-key="step1_title">Fork the
-                        Repository:</strong> <span data-key="step1_desc">First, fork the official CIPTER-MD repository
-                        to your own GitHub account.</span></li>
-                <li style="margin-bottom:1rem;"><strong style="color: white;" data-key="step2_title">Get Session
-                        ID:</strong> <span data-key="step2_desc">Use our 'Connect Bot' page to scan the QR code or use a
-                        Pairing Code to generate your unique SESSION_ID.</span></li>
-                <li style="margin-bottom:1rem;"><strong style="color: white;" data-key="step3_title">Connect
-                        Platform:</strong> <span data-key="step3_desc">Click one of the Auto Deploy buttons above (e.g.,
-                        Koyeb) and link your GitHub account.</span></li>
-                <li style="margin-bottom:1rem;"><strong style="color: white;" data-key="step4_title">Configure
-                        Variables:</strong> <span data-key="step4_desc">Copy the necessary variables from the
-                        Environment Variables section below and paste them into your deployment dashboard.</span></li>
-                <li style="margin-bottom:1rem;"><strong style="color: white;" data-key="step5_title">Deploy &
-                        Enjoy:</strong> <span data-key="step5_desc">Click 'Deploy', wait for the build process to
-                        complete, and your bot will come online!</span></li>
-            </ol>
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3 data-key="step1_title">Fork the Repository</h3>
+                    <p data-key="step1_desc">Before deploying, you must fork the source code to your own account. This allows you to manage your own bot instance.</p>
+                    <a href="https://github.com/sh4lu-z/Cipher-MD/fork" target="_blank" class="btn secondary-btn fork-btn">
+                        <i class="fa-solid fa-code-fork"></i> Fork on GitHub
+                    </a>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3 data-key="step2_title">Get Your Session ID</h3>
+                    <p data-key="step2_desc">Go to the 'Connect Bot' page to link your WhatsApp. Once connected, you will receive a unique SESSION_ID. Copy and save it safely.</p>
+                    <a href="connect.html" class="btn secondary-btn mini-btn">Get Session ID</a>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3 data-key="step3_title">Deploy to a Platform</h3>
+                    <p data-key="step3_desc">Click one of the official deploy buttons above (Heroku/Koyeb/Railway). You will need to log in with your GitHub account.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3 data-key="step4_title">Fill Environment Variables</h3>
+                    <p data-key="step4_desc">During deployment, the platform will ask for variables. Copy the values from the 'Environment Variables' section below and paste them correctly.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3 data-key="step5_title">Start the Bot</h3>
+                    <p data-key="step5_desc">Wait for the build process to finish. Once it's done, your bot will automatically connect to WhatsApp and start working!</p>
+                </div>
+            </div>
         </div>
 
         <div style="text-align: center; margin-top: 4rem; margin-bottom: 2rem;">
@@ -97,52 +185,110 @@
 
             <div class="code-block">
                 <div class="code-header">.env Variables</div>
-                <pre><code class="language-env"># Core Settings
-SESSION_ID="your_session_id_here"
-PREFIX="."
-BOT_NAME="CIPTER-MD"
-OWNER_NUMBER="94712345678"
+                <pre><code class="language-env">
+==========================================
+⚠️ [ CIPHER-MD SETUP & CONFIGURATION ] ⚠️
+==========================================
 
-# Features Toggle (true/false)
-AUTO_READ_STATUS="true"
-AUTO_TYPING="false"
-AUTO_RECORDING="false"
-ALWAYS_ONLINE="true"
-REJECT_CALLS="true"
+ 1️⃣ [ BASIC SETTINGS | මූලික සැකසුම් ]
 
-# Security & Group
-ANTI_LINK="true"
-ANTI_BAD_WORDS="true"
-ANTI_BOT="false"
-AUTO_WELCOME="true"
+ Your WhatsApp Session ID | ඔබගේ WhatsApp Session ID එක
+SESSION_ID=your_session_id_here
 
-# APIs (Optional)
-OPENAI_API_KEY=""
-REMOVEBG_API_KEY=""</code></pre>
+ Number to get pairing code | ශෙශන් එක ලබාගැනීමට භාවිතා කරන අංකය
+PAIRING_NUMBER=947xxxxxxxx
+
+ Owner's phone number | බොට්ගේ අයිතිකරුගේ දුරකථන අංකය
+OWNER_NUMBER=947xxxxxxxx
+
+ MongoDB Database connection URL | MongoDB ඩේටාබේස් එකට අදාළ ලින්ක් එක
+MONGO_URL=your_mongodb_url_here
+
+
+ 2️⃣ [ AI KEYS - GROQ CLOUD | AI පහසුකම් ]
+ Get keys from: https://console.groq.com/keys
+
+ Router Key for module identification | Module හඳුනාගැනීමට භාවිතා කරන යතුර
+GROQ_API_KEY_1=your_groq_key_1
+
+ Main Chat API Key | සාමාන්‍ය චැට් පහසුකම් සඳහා වන යතුර
+GROQ_API_KEY_2=your_groq_key_2
+
+ Backup API Key | අමතර යතුරක් ලෙස භාවිතා කරයි
+GROQ_API_KEY_3=your_groq_key_3
+
+
+ 3️⃣ [ EXTERNAL API KEYS | බාහිර සේවා ]
+
+ VirusTotal API Key for scanning files | ෆයිල් ස්කෑන් කිරීමට භාවිතා කරන යතුර
+VT_API_KEY=your_virustotal_key
+
+ RapidAPI Key for various tools | RapidAPI සේවාවන් සඳහා වන යතුර
+RAPIDAPI_KEY=your_rapidapi_key
+
+ NASA API Keys (Separate by comma if many) | නාසා දත්ත සඳහා (එකට වඩා ඇත්නම් කොමාවකින් වෙන් කරන්න)
+ Example: NASA_API_KEYS=key1,key2,key3
+NASA_API_KEYS=your_nasa_keys
+
+
+ 4️⃣ [ BOT CUSTOMIZATION | බොට්ගේ පෙනුම ]
+
+ Name of your WhatsApp Bot | බොට් සඳහා ඔබ කැමති නමක්
+BOT_NAME=CIPHER-MD
+
+ Footer text for messages | මැසේජ් යටින් වැටෙන පාඨය
+FOOTER=Powered by Syntiox
+
+ Direct Link for Menu Image | මෙනු එකේ පෙන්වන රූපයේ ලින්ක් එක
+MENU_IMAGE=https://your-image-link.com/image.jpg</code></pre>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 4rem; margin-bottom: 2rem;">
-            <h2 class="section-title" data-key="deployment_title" style="margin-bottom: 0;">Manual Deployment</h2>
-            <span class="dim" data-key="deployment_subtitle" style="font-size: 1rem;">(Docker Method)</span>
+            <h2 class="section-title" data-key="manual_title">Manual Deployment</h2>
+            <span class="dim" data-key="manual_subtitle" style="font-size: 1rem;">For Advanced Users & VPS Hosting</span>
         </div>
-        <div class="glass-card deployment-card reveal active">
-            <h3 data-key="deploy_prereq">Prerequisites</h3>
-            <ul>
-                <li data-key="deploy_req1">Docker & Docker Compose installed on your system.</li>
-            </ul>
-            <h3 data-key="deploy_setup">Setup & Run</h3>
-            <div class="code-block">
-                <div class="code-header">bash</div>
-                <pre><code># Clone the repository
-git clone https://github.com/sh4lu-z/cipter-md.git
-cd cipter-md
 
-# Create and configure .env file
-cp .env.example .env
+        <div class="manual-grid">
+            <!-- Node.js Method -->
+            <div class="glass-card deployment-card reveal active">
+                <h3 data-key="method_node_title" style="display:flex; align-items:center; gap:10px;">
+                    <i class="fa-brands fa-node-js" style="color: #68a063;"></i> Node.js Method
+                </h3>
+                <p data-key="method_node_desc" style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Recommended for local testing and standard Linux VPS hosting.
+                </p>
+                <div class="code-block">
+                    <div class="code-header">Terminal / Shell</div>
+                    <pre><code># Clone repo
+git clone https://github.com/sh4lu-z/Cipher-MD.git
+cd Cipher-MD
 
-# Build and start the container
+# Install dependencies
+npm install
+
+# Start the bot
+npm start</code></pre>
+                </div>
+            </div>
+
+            <!-- Docker Method -->
+            <div class="glass-card deployment-card reveal active">
+                <h3 data-key="method_docker_title" style="display:flex; align-items:center; gap:10px;">
+                    <i class="fa-brands fa-docker" style="color: #2496ed;"></i> Docker Method
+                </h3>
+                <p data-key="method_docker_desc" style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Recommended for high stability and isolated container environments.
+                </p>
+                <div class="code-block">
+                    <div class="code-header">Docker Compose</div>
+                    <pre><code># Clone repo
+git clone https://github.com/sh4lu-z/Cipher-MD.git
+cd Cipher-MD
+
+# Start container in background
 docker-compose up -d</code></pre>
+                </div>
             </div>
         </div>
     </main>
@@ -178,7 +324,7 @@ docker-compose up -d</code></pre>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 CIPTER-MD. All rights reserved.</p>
+            <p>&copy; 2026 CIPTER-MD. All rights reserved. | <a href="https://sh4lu-z.vercel.app/" target="_blank" style="color: inherit; text-decoration: none; opacity: 0.5; font-size: 0.75rem;">Dev</a></p>
         </div>
     </footer>
 
