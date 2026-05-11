@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | CIPTER-MD</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .faq-container {
+            max-width: 800px;
+            margin: 120px auto 50px;
+            padding: 2rem;
+        }
+
+        .faq-item {
+            background: rgba(20, 20, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active {
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--accent-cyan);
+        }
+
+        .faq-icon {
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            padding: 0 1.5rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px; /* Adjust based on content */
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+        .contact-box {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px dashed rgba(0, 240, 255, 0.2);
+            border-radius: 16px;
+        }
+
+        .contact-box h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-box p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: var(--accent-cyan);
+            color: #000;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            box-shadow: 0 0 15px var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <nav class="navbar glass">
+        <div class="nav-brand">
+            <div style="display:flex; align-items:center;">
+                <a href="javascript:history.back()" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <div class="logo">CIPTER<span>-MD</span></div>
+            </div>
+            <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" data-key="nav_home">Home</a>
+            <button id="lang-toggle" class="lang-btn">සිංහල</button>
+        </div>
+    </nav>
+
+    <main class="faq-container reveal active">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 class="section-title" data-key="faq_title" style="margin-bottom: 0;">FAQ</h1>
+            <span class="dim" data-key="faq_subtitle" style="font-size: 1rem;">Frequently Asked Questions</span>
+        </div>
+
+        <div id="faq-list">
+            <!-- FAQs will be generated here -->
+        </div>
+
+        <div class="contact-box">
+            <h3 data-key="contact_title">Still have questions?</h3>
+            <p data-key="contact_desc">If you cannot find the answer to your question in our FAQ, you can always contact us directly.</p>
+            <a href="https://whatsapp.com/channel/0029Vb6o3EiGJP8CoA3Olr28" target="_blank" class="contact-btn">
+                <i class="fa-brands fa-whatsapp"></i> <span data-key="contact_btn">Join WhatsApp Channel</span>
+            </a>
+        </div>
+    </main>
+
+    <footer class="modern-footer">
+        <div class="footer-content">
+            <div class="footer-col brand">
+                <h3>CIPTER<span>-MD</span></h3>
+                <p data-key="footer_desc">Advanced WhatsApp AI Bot Core Engine. Built for performance, security, and seamless automation.</p>
+            </div>
+            <div class="footer-col links">
+                <h4 data-key="footer_links">QUICK LINKS</h4>
+                <ul>
+                    <li><a href="faq.html" data-key="nav_faq"><i class="fa-solid fa-circle-question"></i> FAQ</a></li>
+                    <li><a href="updates.html" data-key="nav_updates"><i class="fa-solid fa-clock-rotate-left"></i> Updates & Changelog</a></li>
+                    <li><a href="privacy-policy.html" data-key="footer_privacy"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html" data-key="footer_terms"><i class="fa-solid fa-file-contract"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col connect">
+                <h4 data-key="footer_connect">CONNECT</h4>
+                <div class="social-icons">
+                    <a href="https://whatsapp.com/channel/0029Vb6o3EiGJP8CoA3Olr28" target="_blank" title="WhatsApp Channel" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://sh4lu-z.vercel.app/contact/" target="_blank" title="Contact sh4lu_z" class="social-btn"><i class="fa-solid fa-globe"></i></a>
+                    <a href="https://github.com/sh4lu-z" target="_blank" title="GitHub" class="social-btn"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 CIPTER-MD. All rights reserved. | <a href="https://sh4lu-z.vercel.app/" target="_blank" style="color: inherit; text-decoration: none; opacity: 0.5; font-size: 0.75rem;">Dev</a></p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        const faqData = [
+            // 1. මූලික අවශ්‍යතා සහ සූදානම (Basic Requirements and Preparation)
+            {
+                q_en: "What are the basic software requirements to run Cipher-MD?",
+                q_si: "Cipher-MD ධාවනය කිරීමට අවශ්‍ය මූලික මෘදුකාංග මොනවාද?",
+                a_en: "Mainly Node.js (LTS version), Git, and FFmpeg for plugins are required.",
+                a_si: "ප්‍රධාන වශයෙන් Node.js (LTS version), Git, සහ ප්ලගින සඳහා FFmpeg අවශ්‍ය වේ."
+            },
+            {
+                q_en: "Why should I create a GitHub account?",
+                q_si: "මම GitHub ගිණුමක් හැදිය යුත්තේ ඇයි?",
+                a_en: "A GitHub account is essential to fork the bot's source code and for deployment on platforms like Heroku or Render.",
+                a_si: "බොට්ගේ Source code එක Fork කර ගැනීමට සහ Deployment (Heroku/Render) සඳහා GitHub අත්‍යවශ්‍ය වේ."
+            },
+            {
+                q_en: "Do I need a separate SIM card to run the bot?",
+                q_si: "බොට් එකක් දුවවන්න වෙනම සිම් එකක් ඕනෙද?",
+                a_en: "No, you can use your current number. However, for security reasons, using a secondary number is recommended.",
+                a_si: "නැත, ඔබ දැනට පාවිච්චි කරන අංකයම භාවිතා කළ හැක. නමුත් ආරක්ෂාව සඳහා අමතර අංකයක් භාවිත කිරීම නිර්දේශ කෙරේ."
+            },
+            {
+                q_en: "What is Baileys?",
+                q_si: "මොකක්ද මේ Baileys කියන්නේ?",
+                a_en: "It is the primary library used to connect with the WhatsApp Web API. Cipher-MD is built upon this.",
+                a_si: "මෙය WhatsApp Web API එක සමඟ සම්බන්ධ වීමට භාවිතා කරන ප්‍රධාන ලයිබ්‍රරියයි. Cipher-MD නිපදවා ඇත්තේ මෙයට අනුකූලවය."
+            },
+            {
+                q_en: "Does my phone need to be kept on to run the bot 24/7?",
+                q_si: "බොට් එකක් 24/7 දුවවන්න මගේ ෆෝන් එක ඔන් එකේ තියෙන්න ඕනෙද?",
+                a_en: "No. Once you host the bot on a cloud server (Heroku/VPS), it will work even if your phone is turned off.",
+                a_si: "නැත. ඔබ බොට්ව cloud server එකක (Heroku/VPS) host කළ පසු, ඔබේ ෆෝන් එක ඕෆ් කර තිබුණත් බොට් වැඩ කරයි."
+            },
+
+            // 2. සම්බන්ධතාවය සහ Session කළමනාකරණය (Connection and Session Management)
+            {
+                q_en: "Why does it show 'Linking Failed' when scanning the QR Code?",
+                q_si: "QR Code ස්කෑන් කිරීමේදී 'Linking Failed' ලෙස පෙන්වන්නේ ඇයි?",
+                a_en: "This could be due to a poor internet connection or an outdated WhatsApp version. Update WhatsApp and try again.",
+                a_si: "මෙයට හේතුව අන්තර්ජාල සම්බන්ධතාවයේ දුර්වලතාවයක් හෝ ඔබගේ WhatsApp version එක පැරණි වීම විය හැක. WhatsApp update කර නැවත උත්සාහ කරන්න."
+            },
+            {
+                q_en: "How do I use a Pairing Code?",
+                q_si: "Pairing Code එකක් භාවිතා කරන්නේ කොහොමද?",
+                a_en: "Instead of a QR code, enter your number to receive an 8-digit code. Enter this code in WhatsApp via 'Link with phone number'.",
+                a_si: "QR code එක වෙනුවට ඔබේ අංකය ඇතුළත් කර ලැබෙන අංක 8ක කේතය (Code) WhatsApp හි 'Link with phone number' හරහා ඇතුළත් කිරීමෙන් සම්බන්ධ විය හැක."
+            },
+            {
+                q_en: "What is a Session ID?",
+                q_si: "Session ID එකක් කියන්නේ මොකක්ද?",
+                a_en: "It is a secret code that identifies your WhatsApp account to the bot. Think of it as a 'digital key' for your account.",
+                a_si: "ඔබේ WhatsApp ගිණුම බොට් එකට හඳුනා ගැනීමට දෙන රහස්‍ය කේතයයි. මෙය ඔබගේ ගිණුමේ 'ඩිජිටල් යතුර' වැනිය."
+            },
+            {
+                q_en: "What should I do if I lose my Session ID?",
+                q_si: "මගේ Session ID එක නැතිවුණොත් මොකද කරන්නේ?",
+                a_en: "Go to the Scan site again, get a new Session ID, and update it in your Hosting settings (Environment Variables).",
+                a_si: "නැවත Scan අඩවියට ගොස් අලුත් Session එකක් ලබාගෙන එය ඔබගේ Hosting settings (Environment Variables) වලට ඇතුළත් කරන්න."
+            },
+            {
+                q_en: "Can I run two bots using the same Session ID?",
+                q_si: "එකම Session එකකින් බොට්ස් දෙකක් දුවවන්න පුළුවන්ද?",
+                a_en: "No. Using the same Session ID in two places will cause conflicts and frequent disconnections.",
+                a_si: "නැත. එකම Session ID එක ස්ථාන දෙකකදී පාවිච්චි කිරීමෙන් connection එක නිතර විසන්ධි විය හැක (Conflict)."
+            },
+            {
+                q_en: "Why do I keep getting the 'Connection Closed - Restarting' message?",
+                q_si: "'Connection Closed - Restarting' පණිවිඩය නිතරම එන්නේ ඇයි?",
+                a_en: "This happens due to an internet drop on the server or WhatsApp terminating the session.",
+                a_si: "සර්වර් එකේ අන්තර්ජාලය බිඳ වැටීමක් හෝ WhatsApp මගින් session එක ඉවත් කිරීමක් නිසා මෙය සිදුවේ."
+            },
+            {
+                q_en: "What happens if I remove the bot from Linked Devices?",
+                q_si: "මම Linked Devices වලින් බොට්ව ඉවත් කළොත් මොකද වෙන්නේ?",
+                a_en: "The bot will stop working immediately. You will need to scan again and get a new Session ID to make it work.",
+                a_si: "බොට් වහාම ක්‍රියා විරහිත වේ. නැවත වැඩ කිරීමට නම් අලුතින් Scan කර Session ID එකක් ලබාගත යුතුය."
+            },
+            {
+                q_en: "Can I run the bot on my laptop?",
+                q_si: "මට බොට්ව මගේ ලැප්ටොප් එකේ දුවවන්න පුළුවන්ද?",
+                a_en: "Yes, you can run the bot on your laptop by installing VS Code and Node.js, and using the `npm start` command.",
+                a_si: "ඔව්, VS Code සහ Node.js ස්ථාපනය කර `npm start` මගින් ලැප්ටොප් එකේ බොට් ක්‍රියාත්මක කළ හැක."
+            },
+            {
+                q_en: "What is Multi-Device support?",
+                q_si: "Multi-Device support කියන්නේ මොකක්ද?",
+                a_en: "It is the ability for the bot to run even when your main phone is not connected to the internet.",
+                a_si: "ඔබේ දුරකථනය අන්තර්ජාලයට සම්බන්ධ නැති අවස්ථාවක පවා බොට් ක්‍රියාත්මක වීමේ හැකියාවයි."
+            },
+            {
+                q_en: "How do I check if the bot is connected?",
+                q_si: "බොට් සම්බන්ධ වී ඇත්දැයි පරීක්ෂා කරන්නේ කොහොමද?",
+                a_en: "Send a command like `.ping` or `.alive` to your own number.",
+                a_si: "ඔබේ අංකයටම `.ping` හෝ `.alive` වැනි විධානයක් යවා බලන්න."
+            },
+
+            // 3. හොස්ටිං සහ Deployment (Hosting and Deployment)
+            {
+                q_en: "Why do I get an error when deploying on Heroku?",
+                q_si: "Heroku වල බොට් එක දාද්දි Error එකක් එන්නේ ඇයි?",
+                a_en: "Heroku no longer offers free services, so you must link a payment card. Alternatively, use Koyeb or Render.",
+                a_si: "Heroku දැන් නොමිලේ සේවා ලබා නොදෙන නිසා, ඔබ ගෙවීම් කාඩ්පතක් සම්බන්ධ කර තිබිය යුතුය. නැතහොත් Koyeb, Render වැනි විකල්ප භාවිතා කරන්න."
+            },
+            {
+                q_en: "What is a VPS (Virtual Private Server)?",
+                q_si: "VPS (Virtual Private Server) එකක් කියන්නේ මොකක්ද?",
+                a_en: "It is a rented virtual computer to run the bot. The bot runs much faster and more stable on a VPS.",
+                a_si: "බොට් එකක් දුවවන්න කුලියට ගන්නා පරිගණකයකි. මෙහිදී බොට් වඩාත් වේගවත් සහ ස්ථාවර වේ."
+            },
+            {
+                q_en: "What are the basic commands to install the bot via Termux?",
+                q_si: "Termux හරහා බොට් දානකොට එන මූලික Command මොනවාද?",
+                a_en: "`pkg update && pkg upgrade` (Update), `pkg install nodejs` (Install Node), `git clone [URL]` (Download code), `npm install` (Install libraries).",
+                a_si: "`pkg update && pkg upgrade` (Update), `pkg install nodejs` (Install Node), `git clone [URL]` (Download code), `npm install` (Install libraries)."
+            },
+            {
+                q_en: "Why does the 'App crashed' error occur on Heroku?",
+                q_si: "'App crashed' error එකක් Heroku වල එන්නේ ඇයි?",
+                a_en: "This is usually caused by an invalid Session ID or typos in the Config variables.",
+                a_si: "බොහෝ විට මෙයට හේතුව වැරදි Session ID එකක් හෝ Config variables වල ඇති අක්ෂර වැරදි (Typos) වේ."
+            },
+            {
+                q_en: "What should I do if the bot keeps turning off?",
+                q_si: "බොට් නිතරම Off වෙනවා නම් මොකද කරන්නේ?",
+                a_en: "The RAM provided by your hosting service might be insufficient. Remove unnecessary plugins to free up memory.",
+                a_si: "ඔබ භාවිතා කරන Hosting සේවාවේ RAM ප්‍රමාණය මදි විය හැක. අනවශ්‍ය ප්ලගින ඉවත් කරන්න."
+            },
+            {
+                q_en: "What is a Buildpack?",
+                q_si: "Buildpack එකක් කියන්නේ මොකක්ද?",
+                a_en: "It is a method to provide extra tools like FFmpeg required for the bot to function on servers like Heroku.",
+                a_si: "Heroku වැනි සර්වර් වලට බොට් වැඩ කිරීමට අවශ්‍ය FFmpeg වැනි අමතර ටූල්ස් ලබා දෙන ක්‍රමයකි."
+            },
+            {
+                q_en: "What should I check first if 'Deployment failed' occurs?",
+                q_si: "'Deployment failed' වුණොත් මුලින්ම පරීක්ෂා කළ යුත්තේ කුමක්ද?",
+                a_en: "Check the bot's logs (Heroku Logs / Console). Read the error message highlighted in red.",
+                a_si: "බොට්ගේ Log පරීක්ෂා කරන්න (Heroku Logs / Console). එහි ඇති රතු පාටින් ලියැවී ඇති Error එක කියවන්න."
+            },
+            {
+                q_en: "Can I stop the bot at any time?",
+                q_si: "මට බොට්ව ඕනෑම වෙලාවක Stop කරන්න පුළුවන්ද?",
+                a_en: "Yes, you can do this by going to your Hosting dashboard and selecting 'Turn off dynos' or 'Stop process'.",
+                a_si: "ඔව්, Hosting dashboard එකට ගොස් 'Turn off dynos' හෝ 'Stop process' ලබා දීමෙන් කළ හැක."
+            },
+            {
+                q_en: "Is it easy to deploy the bot on Koyeb?",
+                q_si: "Koyeb වල බොට් එක දාන එක ලේසිද?",
+                a_en: "Yes, Koyeb still offers a Free Tier, making it a very accessible option for beginners.",
+                a_si: "ඔව්, Koyeb වල තවමත් නොමිලේ සේවා (Free Tier) පවතින නිසා එය ආරම්භකයින්ට පහසුය."
+            },
+            {
+                q_en: "Why use Docker?",
+                q_si: "Docker පාවිච්චි කරන්නේ ඇයි?",
+                a_en: "A Docker image is used to install the bot easily and error-free on a server.",
+                a_si: "සර්වර් එකක ඉතා පහසුවෙන් සහ වැරදීම් වලින් තොරව බොට්ව ස්ථාපනය කිරීමට Docker image එකක් භාවිතා කරයි."
+            },
+
+            // 4. පොදු දෝෂ සහ විසඳුම් (Common Errors and Solutions)
+            {
+                q_en: "Why do I get a 'Module not found' error?",
+                q_si: "'Module not found' කියන Error එක එන්නේ ඇයි?",
+                a_en: "You haven't run the `npm install` command properly. The bot is missing required files to function.",
+                a_si: "ඔබ `npm install` විධානය හරියට ලබා දී නැත. බොට් වැඩ කිරීමට අවශ්‍ය files අඩුවීම මෙයට හේතුවයි."
+            },
+            {
+                q_en: "What does the 'EADDRINUSE' error mean?",
+                q_si: "'EADDRINUSE' error එක කියන්නේ මොකක්ද?",
+                a_en: "It means another bot or process is already running on the same server port.",
+                a_si: "එකම සර්වර් එකේ දැනටමත් තවත් බොට් කෙනෙක් හෝ process එකක් දුවමින් පවතින බවයි."
+            },
+            {
+                q_en: "Why aren't images and videos downloading?",
+                q_si: "පින්තූර සහ වීඩියෝ ඩවුන්ලෝඩ් වෙන්නේ නැත්තේ ඇයි?",
+                a_en: "This usually happens because FFmpeg is not installed on your server.",
+                a_si: "බොහෝ විට FFmpeg මෘදුකාංගය සර්වර් එකේ ස්ථාපනය කර නැති නිසා මෙය සිදුවේ."
+            },
+
+            {
+                q_en: "The bot doesn't reply, but messages show in the Console?",
+                q_si: "බොට් රිප්ලයි කරන්නේ නැහැ, හැබැයි Console එකේ මැසේජ් පේනවා?",
+                a_en: "Check if the bot is in 'Private' mode. If so, it will only reply to the owner.",
+                a_si: "බොට් 'Private' mode එකේ තිබේදැයි බලන්න. එසේ නම් ඔහු අයිතිකරුට පමණක් පිළිතුරු දෙනු ඇත."
+            },
+            {
+                q_en: "What to do if I receive a 'WhatsApp Logged Out' message?",
+                q_si: "'WhatsApp Logged Out' පණිවිඩය ලැබුණොත්?",
+                a_en: "The bot was removed from your phone's linked devices. You need to scan and connect again.",
+                a_si: "ඔබේ දුරකථනයෙන් බොට්ව ඉවත් කර ඇත. අලුතින් Scan කරන්න."
+            },
+            {
+                q_en: "Why isn't the bot reading messages in groups?",
+                q_si: "බොට් ගෲප් වල මැසේජ් කියවන්නේ නැත්තේ ඇයි?",
+                a_en: "Check if the bot has been granted the necessary permissions to access group messages.",
+                a_si: "බොට් හට ගෲප් වලට ප්‍රවේශ වීමට අවශ්‍ය අවසර (Permissions) ලබා දී ඇත්දැයි බලන්න."
+            },
+            {
+                q_en: "What if there is a Node version mismatch?",
+                q_si: "Node version mismatch එකක් ආවොත්?",
+                a_en: "If the Node.js version on your server is older than what the bot requires, you need to update it.",
+                a_si: "ඔබේ සර්වර් එකේ ඇති Node.js සංස්කරණය බොට්ගේ අවශ්‍යතාවයට වඩා පැරණි නම් එය update කරන්න."
+            },
+            {
+                q_en: "How do I update the code from GitHub?",
+                q_si: "GitHub එකෙන් Code එක Update කරන්නේ කොහොමද?",
+                a_en: "Go to your Forked repository on GitHub and click 'Sync Fork'.",
+                a_si: "ඔබේ Fork එකට ගොස් 'Sync Fork' ක්ලික් කරන්න."
+            },
+            {
+                q_en: "What is an API Key?",
+                q_si: "API Key එකක් කියන්නේ මොකක්ද?",
+                a_en: "It is a secret key required to access certain third-party services (e.g., YouTube downloads).",
+                a_si: "සමහර සේවාවන් (උදා: YouTube download) ලබා ගැනීමට අවශ්‍ය වන රහස් යතුරකි."
+            },
+
+            // 5. ආරක්ෂාව සහ පෞද්ගලිකත්වය (Security and Privacy)
+            {
+                q_en: "Can someone else control my bot?",
+                q_si: "මගේ බොට් තව කෙනෙකුට පාලනය කරන්න පුළුවන්ද?",
+                a_en: "Only if they have your Session ID. Therefore, keep your Session ID highly confidential.",
+                a_si: "ඔබේ Session ID එක ඔහු සතු නම් පමණක් ඔහුට එය කළ හැක. එබැවින් එය රහසිගතව තබා ගන්න."
+            },
+            {
+                q_en: "Will WhatsApp ban my account?",
+                q_si: "WhatsApp එකෙන් මාව Ban කරයිද?",
+                a_en: "Using a bot can violate WhatsApp's Terms of Service. Avoid spamming messages to reduce the risk of a ban.",
+                a_si: "බොට් කෙනෙක් පාවිච්චි කිරීම WhatsApp නීති වලට පටහැනි විය හැක. අනවශ්‍ය ලෙස මැසේජ් ස්පෑම් (Spam) නොකිරීමෙන් බෑන් වීමේ අවදානම අඩු කරගත හැක."
+            },
+            {
+                q_en: "What should I do if I get a 'Temp Ban'?",
+                q_si: "'Temp Ban' එකක් ලැබුණොත් මොකද කරන්නේ?",
+                a_en: "Turn off the bot for a few hours. Afterwards, refrain from using commands that spam messages.",
+                a_si: "පැය කිහිපයක් බොට්ව ඕෆ් කර තබන්න. ඉන්පසු ස්පෑම් කරන විධාන භාවිතා කිරීමෙන් වළකින්න."
+            },
+            {
+                q_en: "Does the bot read my private chats?",
+                q_si: "මගේ පෞද්ගලික චැට් බොට් කියවනවාද?",
+                a_en: "No. The bot only triggers on the commands you provide. However, always use source codes from trusted developers.",
+                a_si: "නැත. බොට් වැඩ කරන්නේ ඔබ ලබා දෙන විධාන (Commands) වලට පමණි. නමුත් විශ්වාසදායක Source codes පමණක් පාවිච්චි කරන්න."
+            },
+            {
+                q_en: "Does the bot need to be an admin in a group?",
+                q_si: "බොට්ව ගෲප් එකක ඇඩ්මින් කළ යුතුමද?",
+                a_en: "The bot needs admin rights only to perform actions like Anti-link or removing members.",
+                a_si: "ඇන්ටි-ලින්ක් (Anti-link) හෝ සාමාජිකයින් ඉවත් කිරීම වැනි වැඩ කිරීමට නම් බොට් ඇඩ්මින් විය යුතුය."
+            },
+            {
+                q_en: "Will the bot send messages from random numbers?",
+                q_si: "අමුතු අංක වලින් බොට් මැසේජ් එවනවාද?",
+                a_en: "No, the bot will only operate through the number you have linked it to.",
+                a_si: "නැත, බොට් ක්‍රියා කරන්නේ ඔබ ඔහුට ලබා දුන් අංකය හරහා පමණි."
+            },
+            {
+                q_en: "Can viruses spread through the bot?",
+                q_si: "බොට් හරහා වෛරස් පැතිරෙන්න පුළුවන්ද?",
+                a_en: "There is no need to worry if you are using code from a well-known and trusted developer.",
+                a_si: "ප්‍රසිද්ධ සහ විශ්වාසදායක ඩිවෙලොපර් කෙනෙකුගේ code එකක් පාවිච්චි කරන්නේ නම් බිය විය යුතු නැත."
+            },
+            {
+                q_en: "How can I increase the bot's speed?",
+                q_si: "බොට්ගේ වේගය වැඩි කරන්නේ කොහොමද?",
+                a_en: "Delete unnecessary plugins and logs, and increase your server's RAM allocation.",
+                a_si: "අනවශ්‍ය ප්ලගින සහ ලොග් (Logs) මකා දමන්න. සර්වර් එකේ RAM එක වැඩි කරන්න."
+            },
+            {
+                q_en: "What is the difference between 'Self' and 'Public' mode?",
+                q_si: "'Self' සහ 'Public' mode අතර වෙනස මොකක්ද?",
+                a_en: "In Self mode, the bot only responds to you. In Public mode, anyone can issue commands.",
+                a_si: "Self mode හිදී බොට් වැඩ කරන්නේ ඔබට පමණි. Public mode හිදී ඕනෑම අයෙකුට විධාන දිය හැක."
+            },
+            {
+                q_en: "Are my messages saved on the bot's server?",
+                q_si: "මගේ මැසේජ් බොට්ගේ සර්වර් එකේ සේව් වෙනවාද?",
+                a_en: "Generally no. However, when checking logs, the most recent messages received by the bot might be visible.",
+                a_si: "සාමාන්‍යයෙන් නැත. නමුත් ලොග් පරීක්ෂා කිරීමේදී බොට් ලැබූ අවසන් පණිවිඩය දැකගත හැක."
+            },
+            {
+                q_en: "What if the bot suddenly leaves groups?",
+                q_si: "බොට් හදිසියේම ගෲප් වලින් ඉවත් වුණොත්?",
+                a_en: "WhatsApp's security system might have flagged the bot's activity as suspicious.",
+                a_si: "WhatsApp ආරක්ෂක පද්ධතිය මගින් බොට්ව සැක සහිත ලෙස හඳුනාගෙන තිබිය හැක."
+            },
+            {
+                q_en: "How does 'Spam Protection' work?",
+                q_si: "'Spam Protection' වැඩ කරන්නේ කොහොමද?",
+                a_en: "The bot temporarily ignores users who send too many commands within a short period.",
+                a_si: "කෙටි කාලයක් තුළ විධාන රාශියක් එවන අයව බොට් විසින් තාවකාලිකව නොසලකා හරිනු ලබයි."
+            },
+            {
+                q_en: "How many groups can I add the same bot to?",
+                q_si: "මට එකම බොට්ව ගෲප් කීයක දාන්න පුළුවන්ද?",
+                a_en: "There is no limit. However, being in too many active groups might slow down the bot.",
+                a_si: "සීමාවක් නැත. නමුත් වැඩි ගෲප් ප්‍රමාණයක සිටීමෙන් බොට්ගේ වේගය අඩු විය හැක."
+            },
+            {
+                q_en: "Will the bot drain my phone's battery?",
+                q_si: "මගේ Phone එකේ Battery එක බොට් නිසා බහිනවාද?",
+                a_en: "No. Since the bot runs on a cloud server, it does not consume your phone's battery.",
+                a_si: "නැත. බොට් සර්වර් එකක දුවන නිසා ඔබේ දුරකථනයේ බැටරි වැය නොවේ."
+            },
+            {
+                q_en: "How can I contact you if I need more help?",
+                q_si: "මට තවත් උදව් අවශ්‍ය නම් කොහොමද සම්බන්ධ කරගන්නේ?",
+                a_en: "You can ask questions directly on our GitHub Discussions page. <br><br><a href='https://github.com/sh4lu-z/Cipher-MD/discussions/' target='_blank' style='color: var(--accent-cyan); text-decoration: underline;'>Join GitHub Discussions</a>",
+                a_si: "කෙලින්ම අපගේ GitHub Discussions පිටුව හරහා ඔබට අවශ්‍ය ප්‍රශ්න අහන්න පුළුවන්. <br><br><a href='https://github.com/sh4lu-z/Cipher-MD/discussions/' target='_blank' style='color: var(--accent-cyan); text-decoration: underline;'>GitHub Discussions වෙත පිවිසෙන්න</a>"
+            }
+        ];
+
+        const faqContainer = document.getElementById('faq-list');
+
+        function renderFAQs() {
+            faqContainer.innerHTML = '';
+            const isSi = typeof currentLang !== 'undefined' && currentLang === 'si';
+
+            faqData.forEach((faq, index) => {
+                const question = isSi ? faq.q_si : faq.q_en;
+                const answer = isSi ? faq.a_si : faq.a_en;
+
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                item.innerHTML = `
+                    <div class="faq-question">
+                        <span>${question}</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p style="margin-top:0.5rem; margin-bottom:1rem;">${answer}</p>
+                    </div>
+                `;
+
+                // Accordion logic
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    // Close all first
+                    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+                    // Toggle current
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+
+                faqContainer.appendChild(item);
+            });
+        }
+
+        renderFAQs();
+
+        // Listen for language changes
+        const langToggleBtn = document.getElementById('lang-toggle');
+        if (langToggleBtn) {
+            langToggleBtn.addEventListener('click', () => {
+                setTimeout(() => {
+                    renderFAQs();
+                    
+                    if(typeof currentLang !== 'undefined') {
+                        if(currentLang === 'si') {
+                            document.querySelector('[data-key="faq_title"]').innerText = "නිතර අසන ප්‍රශ්න (FAQ)";
+                            document.querySelector('[data-key="faq_subtitle"]').innerText = "බොට් ගැන බොහෝ දෙනෙක් අහන ප්‍රශ්න වලට උත්තර";
+                            document.querySelector('[data-key="contact_title"]').innerText = "තවමත් ප්‍රශ්න තියෙනවද?";
+                            document.querySelector('[data-key="contact_desc"]').innerText = "ඔයාගේ ප්‍රශ්නෙට උත්තරේ මෙතන නැත්නම්, අපේ WhatsApp චැනල් එකට ඇවිත් අහන්න පුළුවන්.";
+                            document.querySelector('[data-key="contact_btn"]').innerText = "WhatsApp Channel එකට එකතු වන්න";
+                        } else {
+                            document.querySelector('[data-key="faq_title"]').innerText = "FAQ";
+                            document.querySelector('[data-key="faq_subtitle"]').innerText = "Frequently Asked Questions";
+                            document.querySelector('[data-key="contact_title"]').innerText = "Still have questions?";
+                            document.querySelector('[data-key="contact_desc"]').innerText = "If you cannot find the answer to your question in our FAQ, you can always contact us directly.";
+                            document.querySelector('[data-key="contact_btn"]').innerText = "Join WhatsApp Channel";
+                        }
+                    }
+                }, 50);
+            });
+        }
+    </script>
+</body>
+</html>
