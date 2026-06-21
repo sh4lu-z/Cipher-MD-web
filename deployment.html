@@ -260,14 +260,17 @@ MENU_IMAGE=https://your-image-link.com/image.jpg</code></pre>
                 </p>
                 <div class="code-block">
                     <div class="code-header">Terminal / Shell</div>
-                    <pre><code># Clone repo
+                    <pre><code># 1. Clone repo
 git clone https://github.com/sh4lu-z/Cipher-MD.git
 cd Cipher-MD
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Start the bot
+# 3. Setup Environment Variables
+node setup.js
+
+# 4. Start the bot
 npm start</code></pre>
                 </div>
             </div>
@@ -290,8 +293,17 @@ pkg install git -y
 git clone https://github.com/sh4lu-z/Cipher-MD.git
 cd Cipher-MD
 
-# 3. Run the Auto Setup Script
-bash start.sh</code></pre>
+# 3. Install core system packages
+bash start.sh
+
+# 4. Install Node packages
+npm install
+
+# 5. Setup Environment Variables
+node setup.js
+
+# 6. Start the bot
+npm start</code></pre>
                 </div>
             </div>
 
