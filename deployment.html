@@ -272,6 +272,29 @@ npm start</code></pre>
                 </div>
             </div>
 
+            <!-- Termux Method -->
+            <div class="glass-card deployment-card reveal active">
+                <h3 data-key="method_termux_title" style="display:flex; align-items:center; gap:10px;">
+                    <i class="fa-solid fa-mobile-screen-button" style="color: #00f0ff;"></i> Termux (Android)
+                </h3>
+                <p data-key="method_termux_desc" style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Run directly on your phone. <strong style="color: #ff4757;">Important:</strong> Download Termux from <a href="https://f-droid.org/en/packages/com.termux/" target="_blank" style="color:var(--accent-cyan); text-decoration:underline;">F-Droid</a> (Play Store version is obsolete).
+                </p>
+                <div class="code-block">
+                    <div class="code-header">Termux App</div>
+                    <pre><code># 1. Update Termux & Install Git
+pkg update -y && pkg upgrade -y
+pkg install git -y
+
+# 2. Clone the repository
+git clone https://github.com/sh4lu-z/Cipher-MD.git
+cd Cipher-MD
+
+# 3. Run the Auto Setup Script
+bash start.sh</code></pre>
+                </div>
+            </div>
+
             <!-- Docker Method -->
             <div class="glass-card deployment-card reveal active">
                 <h3 data-key="method_docker_title" style="display:flex; align-items:center; gap:10px;">
