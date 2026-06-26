@@ -1,5 +1,7 @@
 {
-    "dependencies": {
-        "speakeasy": "^2.0.0"
-    }
+  "dependencies": {
+    "speakeasy": "^2.0.0",
+    "javascript-obfuscator": "^4.1.0",
+    "jszip": "^3.10.1"
+  }
 }
