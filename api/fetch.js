@@ -1,5 +1,7 @@
-const speakeasy = require('speakeasy');
-const path = require('path');
+import speakeasy from 'speakeasy';
+import JavaScriptObfuscator from 'javascript-obfuscator';
+import JSZip from 'jszip';
+import path from 'path';
 
 export default async function handler(req, res) {
     const { file, otp } = req.query;
@@ -22,52 +24,75 @@ export default async function handler(req, res) {
     }
 
     try {
-        if (!file) {
-            const listUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/${branch}?recursive=1`;
-            const response = await fetch(listUrl, {
-                headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
+        if (file === 'version.txt') {
+            const versionUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/version.txt?ref=${branch}`;
+            const verResponse = await fetch(versionUrl, {
+                headers: {
+                    'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github.v3.raw'
+                }
             });
-            
-            const data = await response.json();
-            
-            if (!data.tree) {
-                throw new Error(data.message || "Failed to fetch GitHub tree");
-            }
 
-            const filePaths = data.tree
-                .filter(item => item.type === 'blob')
-                .map(item => item.path);
+            if (!verResponse.ok) return res.status(404).json({ error: "version.txt not found" });
 
-            return res.status(200).json(filePaths);
+            const versionText = await verResponse.text();
+            res.setHeader('Content-Type', 'text/plain');
+            return res.status(200).send(versionText);
         }
 
-        const fetchUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${file}?ref=${branch}`;
-        const response = await fetch(fetchUrl, {
-            headers: {
-                'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github.v3.raw'
-            }
+        const listUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/${branch}?recursive=1`;
+        const treeResponse = await fetch(listUrl, {
+            headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
         });
+        
+        const treeData = await treeResponse.json();
+        if (!treeData.tree) throw new Error("Failed to fetch GitHub tree");
 
-        if (!response.ok) {
-            return res.status(404).json({ error: "File not found on GitHub" });
+        const zip = new JSZip();
+
+        for (const item of treeData.tree) {
+            if (item.type === 'blob') {
+                
+                if (item.path.startsWith('node_modules/') || item.path.startsWith('.git/')) continue; 
+
+                const fileUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${item.path}?ref=${branch}`;
+                const fileResponse = await fetch(fileUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                        'Accept': 'application/vnd.github.v3.raw'
+                    }
+                });
+
+                if (!fileResponse.ok) continue;
+
+                if (item.path.endsWith('.js')) {
+                    const rawCode = await fileResponse.text();
+                    const obfuscatedResult = JavaScriptObfuscator.obfuscate(rawCode, {
+                        compact: true,
+                        controlFlowFlattening: true, 
+                        numbersToExpressions: true,  
+                        simplify: false,
+                        stringArray: true,           
+                        stringArrayEncoding: ['base64'], 
+                        deadCodeInjection: false     
+                    });
+                    zip.file(item.path, obfuscatedResult.getObfuscatedCode());
+                } else {
+                    const arrayBuffer = await fileResponse.arrayBuffer();
+                    zip.file(item.path, Buffer.from(arrayBuffer));
+                }
+            }
         }
 
-        const ext = path.extname(file).toLowerCase();
-        let contentType = 'text/plain';
-        if (['.png', '.jpg', '.jpeg', '.gif'].includes(ext)) contentType = `image/${ext.replace('.', '')}`;
-        else if (ext === '.mp4') contentType = 'video/mp4';
-        else if (ext === '.pdf') contentType = 'application/pdf';
-        else if (ext === '.json') contentType = 'application/json';
+        const zipBuffer = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
 
-        const arrayBuffer = await response.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-
-        res.setHeader('Content-Type', contentType);
-        return res.status(200).send(buffer);
+        res.setHeader('Content-Type', 'application/zip');
+        res.setHeader('Content-Disposition', 'attachment; filename="update.zip"');
+        
+        return res.status(200).send(zipBuffer);
 
     } catch (error) {
         console.error("API Error:", error.message);
-        return res.status(500).json({ error: "Sync Failed", details: error.message });
+        return res.status(500).json({ error: "Sync & Obfuscation Failed", details: error.message });
     }
 }
