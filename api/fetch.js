@@ -5,6 +5,7 @@ import path from 'path';
 
 export default async function handler(req, res) {
     const { file, token } = req.query;
+    console.log(`[API] Incoming request received. File: ${file}, Token: ${token}`);
 
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const REPO_OWNER = process.env.REPO_OWNER;
