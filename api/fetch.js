@@ -24,7 +24,12 @@ export default async function handler(req, res) {
 
     if (!isValid) {
         console.log(`[API] Token mismatch! Expected: ${expectedToken}, Got: ${token}`);
-        return res.status(403).json({ error: "Unauthorized: Invalid Security Token" });
+        return res.status(403).json({ 
+            error: "Unauthorized: Invalid Security Token",
+            debug_expected: expectedToken,
+            debug_got: token,
+            debug_clientT: clientT
+        });
     }
 
     try {
