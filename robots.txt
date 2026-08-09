@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cipher-md.vercel.app/sitemap.xml
+Sitemap: https://cipher-md.syntiox.top/sitemap.xml
