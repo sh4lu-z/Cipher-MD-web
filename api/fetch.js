@@ -1,10 +1,10 @@
-import speakeasy from 'speakeasy';
+import crypto from 'crypto';
 import JavaScriptObfuscator from 'javascript-obfuscator';
 import JSZip from 'jszip';
 import path from 'path';
 
 export default async function handler(req, res) {
-    const { file, otp } = req.query;
+    const { file, token } = req.query;
 
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const REPO_OWNER = process.env.REPO_OWNER;
@@ -12,15 +12,18 @@ export default async function handler(req, res) {
     const SHARED_SECRET = process.env.SHARED_SECRET;
     const branch = "optimize/ram-fixes";
 
-    const isValid = speakeasy.totp.verify({
-        secret: SHARED_SECRET,
-        encoding: 'ascii',
-        token: otp,
-        window: 1
-    });
+    if (!token || !SHARED_SECRET) {
+        return res.status(403).json({ error: "Unauthorized: Missing credentials" });
+    }
+
+    const t = Math.floor(Date.now() / 30000);
+    const expectedTokenCurrent = crypto.createHmac('sha256', SHARED_SECRET).update(t.toString()).digest('hex');
+    const expectedTokenPrevious = crypto.createHmac('sha256', SHARED_SECRET).update((t - 1).toString()).digest('hex');
+
+    const isValid = (token === expectedTokenCurrent || token === expectedTokenPrevious);
 
     if (!isValid) {
-        return res.status(403).json({ error: "Unauthorized: Invalid OTP" });
+        return res.status(403).json({ error: "Unauthorized: Invalid Security Token" });
     }
 
     try {
