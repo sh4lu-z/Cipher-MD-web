@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import JavaScriptObfuscator from 'javascript-obfuscator';
 import JSZip from 'jszip';
 import path from 'path';
 
@@ -24,12 +23,7 @@ export default async function handler(req, res) {
 
     if (!isValid) {
         console.log(`[API] Token mismatch! Expected: ${expectedToken}, Got: ${token}`);
-        return res.status(403).json({ 
-            error: "Unauthorized: Invalid Security Token",
-            debug_expected: expectedToken,
-            debug_got: token,
-            debug_clientT: clientT
-        });
+        return res.status(403).json({ error: "Unauthorized: Invalid Security Token" });
     }
 
     try {
@@ -74,22 +68,8 @@ export default async function handler(req, res) {
 
                 if (!fileResponse.ok) continue;
 
-                if (item.path.endsWith('.js')) {
-                    const rawCode = await fileResponse.text();
-                    const obfuscatedResult = JavaScriptObfuscator.obfuscate(rawCode, {
-                        compact: true,
-                        controlFlowFlattening: true, 
-                        numbersToExpressions: true,  
-                        simplify: false,
-                        stringArray: true,           
-                        stringArrayEncoding: ['base64'], 
-                        deadCodeInjection: false     
-                    });
-                    zip.file(item.path, obfuscatedResult.getObfuscatedCode());
-                } else {
-                    const arrayBuffer = await fileResponse.arrayBuffer();
-                    zip.file(item.path, Buffer.from(arrayBuffer));
-                }
+                const arrayBuffer = await fileResponse.arrayBuffer();
+                zip.file(item.path, Buffer.from(arrayBuffer));
             }
         }
 
