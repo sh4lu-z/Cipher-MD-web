@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ ! -t 0 ]; then
+    echo "================================================================="
+    echo "[ERROR] This script requires interactive user input."
+    echo "Please do not run it by piping (e.g. curl ... | bash)."
+    echo "Instead, download and run it:"
+    echo "curl -O https://cipher-md.syntiox.top/install.sh && bash install.sh"
+    echo "================================================================="
+    exit 1
+fi
+
 TARGET_DIR="$HOME/.sh4lu-z/CIPHER MD"
 mkdir -p "$TARGET_DIR"
 cd "$TARGET_DIR" || exit
@@ -7,16 +17,40 @@ cd "$TARGET_DIR" || exit
 echo "Downloading Cipher-MD..."
 curl -L -o Cipher-MD.zip https://github.com/sh4lu-z/Cipher-MD/archive/refs/heads/main.zip
 
-if [ -d "Cipher-MD-main" ]; then
-    rm -rf "Cipher-MD-main"
+if [ -f "Cipher-MD-main/.env" ]; then
+    echo "[INFO] Backing up existing .env file..."
+    cp "Cipher-MD-main/.env" ".env.backup"
+fi
+
+CLEAN_INSTALL="Y"
+if [ -d "Cipher-MD-main/node_modules" ]; then
+    echo ""
+    echo "[INFO] Existing node_modules found."
+    read -p "Do you want to do a clean install and re-download all modules? (Y/N): " CLEAN_INSTALL
+fi
+
+if [[ "$CLEAN_INSTALL" == "Y" || "$CLEAN_INSTALL" == "y" ]]; then
+    if [ -d "Cipher-MD-main" ]; then
+        echo "Removing old files for a clean install..."
+        rm -rf "Cipher-MD-main"
+    fi
+else
+    echo "Keeping existing node_modules. Only missing/updated modules will be downloaded."
 fi
 
 echo "Extracting files..."
-unzip -q Cipher-MD.zip || {
+unzip -o -q Cipher-MD.zip || {
     echo "unzip command not found. Please install unzip first."
     exit 1
 }
+rm Cipher-MD.zip
 cd Cipher-MD-main || exit
+
+if [ -f "../.env.backup" ]; then
+    echo "[INFO] Restoring backed up .env file..."
+    cp "../.env.backup" ".env"
+    rm "../.env.backup"
+fi
 
 CREATE_ENV="Y"
 if [ -f ".env" ]; then
@@ -96,7 +130,7 @@ EOF
     [ -n "$GOOGLE_TOKEN" ] && echo "GOOGLE_TOKEN='$GOOGLE_TOKEN'" >> .env
 fi
 
-DESKTOP_PATH="$HOME/Desktop/cipher md"
+DESKTOP_PATH="$HOME/Desktop/Cipher MD"
 mkdir -p "$DESKTOP_PATH"
 
 echo "Checking for Git and FFmpeg..."
@@ -141,6 +175,15 @@ if command -v node &> /dev/null; then
     BIN_PATH="$HOME/.local/bin"
     mkdir -p "$BIN_PATH"
     
+    if [[ ":$PATH:" != *":$BIN_PATH:"* ]]; then
+        echo "Adding $BIN_PATH to PATH..."
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+        if [ -f "$HOME/.zshrc" ]; then
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
+        fi
+        export PATH="$HOME/.local/bin:$PATH"
+    fi
+    
     echo "#!/bin/bash" > "$BIN_PATH/cipher-md"
     echo "cd \"$(pwd)\"" >> "$BIN_PATH/cipher-md"
     echo "node start.js" >> "$BIN_PATH/cipher-md"
@@ -152,14 +195,19 @@ if command -v node &> /dev/null; then
     
     BOTRUN_PATH="$DESKTOP_PATH/cipher-md.sh"
     echo "#!/bin/bash" > "$BOTRUN_PATH"
-    echo "cd \"$(pwd)\"" >> "$BOTRUN_PATH"
-    echo "node start.js" >> "$BOTRUN_PATH"
+    echo "cipher-md" >> "$BOTRUN_PATH"
     chmod +x "$BOTRUN_PATH"
 
     EDIT_ENV_PATH="$DESKTOP_PATH/cipher-env.sh"
     echo "#!/bin/bash" > "$EDIT_ENV_PATH"
-    echo "nano \"$(pwd)/.env\"" >> "$EDIT_ENV_PATH"
+    echo "cipher-env" >> "$EDIT_ENV_PATH"
     chmod +x "$EDIT_ENV_PATH"
+
+    # AI Agent Integration
+    if [ -d "skills" ]; then
+        cp -r skills "$DESKTOP_PATH/" 2>/dev/null || true
+    fi
+    cp *.md "$DESKTOP_PATH/" 2>/dev/null || true
 
     echo "Setup complete! Starting the bot..."
     node start.js
@@ -201,24 +249,51 @@ if command -v docker &> /dev/null; then
     
     BOTRUN_PATH="$DESKTOP_PATH/cipher-md.sh"
     echo "#!/bin/bash" > "$BOTRUN_PATH"
-    echo "docker start cipher-md" >> "$BOTRUN_PATH"
+    echo "cipher-md" >> "$BOTRUN_PATH"
     chmod +x "$BOTRUN_PATH"
 
     EDIT_ENV_PATH="$DESKTOP_PATH/cipher-env.sh"
     echo "#!/bin/bash" > "$EDIT_ENV_PATH"
-    echo "nano \"$(pwd)/.env\"" >> "$EDIT_ENV_PATH"
-    echo "echo 'After saving, please restart the Docker container to apply changes.'" >> "$EDIT_ENV_PATH"
+    echo "cipher-env" >> "$EDIT_ENV_PATH"
     chmod +x "$EDIT_ENV_PATH"
 
     BOTSTOP_PATH="$DESKTOP_PATH/cipher-stop.sh"
     echo "#!/bin/bash" > "$BOTSTOP_PATH"
-    echo "docker stop cipher-md" >> "$BOTSTOP_PATH"
+    echo "cipher-stop" >> "$BOTSTOP_PATH"
     chmod +x "$BOTSTOP_PATH"
 
     BOTRESTART_PATH="$DESKTOP_PATH/cipher-restart.sh"
     echo "#!/bin/bash" > "$BOTRESTART_PATH"
-    echo "docker restart cipher-md" >> "$BOTRESTART_PATH"
+    echo "cipher-restart" >> "$BOTRESTART_PATH"
     chmod +x "$BOTRESTART_PATH"
+
+    # AI Agent Integration
+    AGENT_SKILL_DIR="$DESKTOP_PATH/Cipher-MD"
+    mkdir -p "$AGENT_SKILL_DIR"
+    
+    cat <<EOF > "$AGENT_SKILL_DIR/SKILL.md"
+---
+name: manage-cipher-md
+description: Manages the Cipher-MD WhatsApp Bot. Use this skill to start, stop, restart the bot or edit the environment variables.
+---
+
+# Cipher-MD Management Skill
+You are in a workspace that manages a Cipher-MD WhatsApp Bot.
+
+## Available Commands
+- \`cipher-md\`: Starts the bot.
+- \`cipher-env\`: Opens the \`.env\` file for editing.
+- \`cipher-stop\`: Stops the bot (Docker only).
+- \`cipher-restart\`: Restarts the bot (Docker only).
+EOF
+
+    cat <<EOF > "$DESKTOP_PATH/AGENTS.md"
+# Cipher-MD Agent Workspace
+This workspace contains shortcuts and documentation for the Cipher-MD bot.
+Please refer to the skill at \`Cipher-MD/SKILL.md\` for management commands.
+EOF
+
+    cp *.md "$DESKTOP_PATH/" 2>/dev/null || true
 
     echo "Setup complete! Bot is running in Docker background."
     exit 0

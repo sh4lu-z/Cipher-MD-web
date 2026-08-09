@@ -184,7 +184,7 @@
                 <h3><i class="fa-brands fa-apple"></i> macOS <span style="color:#555; margin:0 5px;">|</span> <i
                         class="fa-brands fa-linux"></i> Linux & Termux</h3>
                 <div class="snippet-box">
-                    <code id="cmd-linux">curl -sL https://cipher-md.syntiox.top/install.sh | bash</code>
+                    <code id="cmd-linux">curl -sL https://cipher-md.syntiox.top/install.sh -o install.sh && bash install.sh</code>
                     <button
                         onclick="navigator.clipboard.writeText(document.getElementById('cmd-linux').innerText); showGlobalToast('Copied to clipboard!', 'success')"
                         title="Copy to clipboard"><i class="fa-regular fa-copy"></i></button>
@@ -476,7 +476,7 @@ npm start</code></pre>
 pkg update -y && pkg upgrade -y
 
 # 2. Run Auto Installer
-curl -sL https://cipher-md.syntiox.top/install.sh | bash
+curl -sL https://cipher-md.syntiox.top/install.sh -o install.sh && bash install.sh
 
 # 3. Start the bot (If closed later)
 cipher-md</code></pre>

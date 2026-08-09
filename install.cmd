@@ -50,6 +50,7 @@ if /i "!CLEAN_INSTALL!"=="Y" (
 
 echo Extracting files...
 tar -xf Cipher-MD.zip
+del Cipher-MD.zip
 cd Cipher-MD-main
 
 if exist "..\.env.backup" (
@@ -184,7 +185,7 @@ if %errorlevel% equ 0 (
         exit /b 1
     )
 
-    echo Setting up global commands and Desktop shortcuts...
+    echo Setting up global commands...
     
     :: Global Commands
     set BIN_PATH=%APPDATA%\.sh4lu-z\bin
@@ -210,17 +211,22 @@ if %errorlevel% equ 0 (
     )
 
     :: Desktop Shortcuts
-    set DESKTOP_PATH=%USERPROFILE%\Desktop\cipher md
+    set DESKTOP_PATH=%USERPROFILE%\Desktop\Cipher MD
     if not exist "!DESKTOP_PATH!" mkdir "!DESKTOP_PATH!"
     
     set BOTRUN_PATH=!DESKTOP_PATH!\cipher-md.bat
     echo @echo off > "!BOTRUN_PATH!"
-    echo cd /d "%CD%" >> "!BOTRUN_PATH!"
-    echo node start.js >> "!BOTRUN_PATH!"
+    echo cipher-md >> "!BOTRUN_PATH!"
 
     set EDIT_ENV_PATH=!DESKTOP_PATH!\cipher-env.bat
     echo @echo off > "!EDIT_ENV_PATH!"
-    echo notepad "%CD%\.env" >> "!EDIT_ENV_PATH!"
+    echo cipher-env >> "!EDIT_ENV_PATH!"
+
+    :: AI Agent Integration
+    if exist "skills" (
+        xcopy /E /I /Y "skills" "!DESKTOP_PATH!\skills" >nul
+    )
+    copy /Y "*.md" "!DESKTOP_PATH!\" >nul
 
     echo Setup complete! Starting the bot...
     node start.js
@@ -239,7 +245,7 @@ if %errorlevel% equ 0 (
     docker rm -f cipher-md >nul 2>&1
     docker run -d --name cipher-md --env-file .env cipher-md
 
-    echo Setting up global commands and Desktop shortcuts...
+    echo Setting up global commands...
     
     :: Global Commands
     set BIN_PATH=%APPDATA%\.sh4lu-z\bin
@@ -273,26 +279,48 @@ if %errorlevel% equ 0 (
     )
 
     :: Desktop Shortcuts
-    set DESKTOP_PATH=%USERPROFILE%\Desktop\cipher md
+    set DESKTOP_PATH=%USERPROFILE%\Desktop\Cipher MD
     if not exist "!DESKTOP_PATH!" mkdir "!DESKTOP_PATH!"
     
     set BOTRUN_PATH=!DESKTOP_PATH!\cipher-md.bat
     echo @echo off > "!BOTRUN_PATH!"
-    echo docker start cipher-md >> "!BOTRUN_PATH!"
+    echo cipher-md >> "!BOTRUN_PATH!"
 
     set EDIT_ENV_PATH=!DESKTOP_PATH!\cipher-env.bat
     echo @echo off > "!EDIT_ENV_PATH!"
-    echo notepad "%CD%\.env" >> "!EDIT_ENV_PATH!"
-    echo echo After saving, please restart the Docker container to apply changes. >> "!EDIT_ENV_PATH!"
-    echo pause >> "!EDIT_ENV_PATH!"
+    echo cipher-env >> "!EDIT_ENV_PATH!"
 
     set BOTSTOP_PATH=!DESKTOP_PATH!\cipher-stop.bat
     echo @echo off > "!BOTSTOP_PATH!"
-    echo docker stop cipher-md >> "!BOTSTOP_PATH!"
+    echo cipher-stop >> "!BOTSTOP_PATH!"
     
     set BOTRESTART_PATH=!DESKTOP_PATH!\cipher-restart.bat
     echo @echo off > "!BOTRESTART_PATH!"
-    echo docker restart cipher-md >> "!BOTRESTART_PATH!"
+    echo cipher-restart >> "!BOTRESTART_PATH!"
+
+    :: AI Agent Integration
+    set AGENT_SKILL_DIR=!DESKTOP_PATH!\Cipher-MD
+    if not exist "!AGENT_SKILL_DIR!" mkdir "!AGENT_SKILL_DIR!"
+    
+    echo --- > "!AGENT_SKILL_DIR!\SKILL.md"
+    echo name: manage-cipher-md >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo description: Manages the Cipher-MD WhatsApp Bot. Use this skill to start, stop, restart the bot or edit the environment variables. >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo --- >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo. >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo # Cipher-MD Management Skill >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo You are in a workspace that manages a Cipher-MD WhatsApp Bot. >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo. >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo ## Available Commands >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo - `cipher-md`: Starts the bot. >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo - `cipher-env`: Opens the `.env` file for editing. >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo - `cipher-stop`: Stops the bot ^(Docker only^). >> "!AGENT_SKILL_DIR!\SKILL.md"
+    echo - `cipher-restart`: Restarts the bot ^(Docker only^). >> "!AGENT_SKILL_DIR!\SKILL.md"
+
+    echo # Cipher-MD Agent Workspace > "!DESKTOP_PATH!\AGENTS.md"
+    echo This workspace contains shortcuts and documentation for the Cipher-MD bot. >> "!DESKTOP_PATH!\AGENTS.md"
+    echo Please refer to the skill at `Cipher-MD\SKILL.md` for management commands. >> "!DESKTOP_PATH!\AGENTS.md"
+    
+    copy /Y "*.md" "!DESKTOP_PATH!\" >nul
 
     echo Setup complete! Bot is running in Docker.
     pause
