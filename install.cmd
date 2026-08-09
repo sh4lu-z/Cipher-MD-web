@@ -2,14 +2,6 @@
 setlocal ENABLEDELAYEDEXPANSION
 title Cipher-MD Installer
 
-:: 1. Admin Rights Check
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo [ERROR] Administrative privileges required.
-    echo Please right-click on this script and select "Run as Administrator".
-    pause
-    exit /b 1
-)
 
 set TARGET_DIR=%APPDATA%\.sh4lu-z\CIPHER MD
 if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%"

@@ -346,3 +346,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+// --- Global Toast Notification System ---
+window.showGlobalToast = function(message, type = 'success') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        document.body.appendChild(container);
+    }
+    const toast = document.createElement('div');
+
+    let icon = 'fa-info-circle';
+    if (type === 'success') icon = 'fa-circle-check';
+    if (type === 'error') icon = 'fa-circle-exclamation';
+
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.4s ease forwards';
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+};
