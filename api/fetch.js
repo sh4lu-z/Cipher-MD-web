@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     const REPO_OWNER = process.env.REPO_OWNER;
     const REPO_NAME = process.env.REPO_NAME;
     const SHARED_SECRET = process.env.SHARED_SECRET;
-    const branch = "optimize/ram-fixes";
+    const branch = "production";
 
     if (!token || !SHARED_SECRET) {
         return res.status(403).json({ error: "Unauthorized: Missing credentials" });
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
         const treeResponse = await fetch(listUrl, {
             headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
         });
-        
+
         const treeData = await treeResponse.json();
         if (!treeData.tree) throw new Error("Failed to fetch GitHub tree");
 
@@ -55,8 +55,8 @@ export default async function handler(req, res) {
 
         for (const item of treeData.tree) {
             if (item.type === 'blob') {
-                
-                if (item.path.startsWith('node_modules/') || item.path.startsWith('.git/')) continue; 
+
+                if (item.path.startsWith('node_modules/') || item.path.startsWith('.git/')) continue;
 
                 const fileUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${item.path}?ref=${branch}`;
                 const fileResponse = await fetch(fileUrl, {
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
 
         res.setHeader('Content-Type', 'application/zip');
         res.setHeader('Content-Disposition', 'attachment; filename="update.zip"');
-        
+
         return res.status(200).send(zipBuffer);
 
     } catch (error) {
