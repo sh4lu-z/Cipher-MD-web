@@ -4,8 +4,8 @@ import JSZip from 'jszip';
 import path from 'path';
 
 export default async function handler(req, res) {
-    const { file, token } = req.query;
-    console.log(`[API] Incoming request received. File: ${file}, Token: ${token}`);
+    const { file, token, t: clientTimeMs } = req.query;
+    console.log(`[API] Incoming request received. File: ${file}, Token: ${token}, ClientTime: ${clientTimeMs}`);
 
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const REPO_OWNER = process.env.REPO_OWNER;
@@ -17,13 +17,13 @@ export default async function handler(req, res) {
         return res.status(403).json({ error: "Unauthorized: Missing credentials" });
     }
 
-    const t = Math.floor(Date.now() / 30000);
-    const expectedTokenCurrent = crypto.createHmac('sha256', SHARED_SECRET).update(t.toString()).digest('hex');
-    const expectedTokenPrevious = crypto.createHmac('sha256', SHARED_SECRET).update((t - 1).toString()).digest('hex');
+    const clientT = Math.floor(parseInt(clientTimeMs) / 30000);
+    const expectedToken = crypto.createHmac('sha256', SHARED_SECRET).update(clientT.toString()).digest('hex');
 
-    const isValid = (token === expectedTokenCurrent || token === expectedTokenPrevious);
+    const isValid = (token === expectedToken);
 
     if (!isValid) {
+        console.log(`[API] Token mismatch! Expected: ${expectedToken}, Got: ${token}`);
         return res.status(403).json({ error: "Unauthorized: Invalid Security Token" });
     }
 
