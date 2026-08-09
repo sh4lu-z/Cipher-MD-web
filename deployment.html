@@ -195,7 +195,7 @@
             <div class="install-item">
                 <h3><i class="fa-brands fa-windows"></i> Windows PowerShell</h3>
                 <div class="snippet-box">
-                    <code id="cmd-ps">irm https://cipher-md.syntiox.top/install.cmd | cmd</code>
+                    <code id="cmd-ps">irm https://cipher-md.syntiox.top/install.cmd -OutFile install.cmd ; .\install.cmd</code>
                     <button
                         onclick="navigator.clipboard.writeText(document.getElementById('cmd-ps').innerText); showGlobalToast('Copied to clipboard!', 'success')"
                         title="Copy to clipboard"><i class="fa-regular fa-copy"></i></button>

@@ -1,4 +1,19 @@
 @echo off
+goto :VERIFY_EXECUTION
+:VERIFY_EXECUTION_FAILED
+echo.
+echo =================================================================
+echo [ERROR] This script cannot be run by piping into cmd.
+echo Piping breaks delayed expansion and causes variables to corrupt.
+echo =================================================================
+echo.
+echo Please use the following PowerShell command to install correctly:
+echo.
+echo irm https://cipher-md.syntiox.top/install.cmd -OutFile install.cmd ; .\install.cmd
+echo.
+exit /b 1
+
+:VERIFY_EXECUTION
 setlocal ENABLEDELAYEDEXPANSION
 title Cipher-MD Installer
 
