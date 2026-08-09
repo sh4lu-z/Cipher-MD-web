@@ -26,12 +26,37 @@ cd /d "%TARGET_DIR%"
 echo Downloading Cipher-MD...
 curl -L -o Cipher-MD.zip https://github.com/sh4lu-z/Cipher-MD/archive/refs/heads/main.zip
 
-:: 6. Clean Install - Remove old folder if exists
-if exist "Cipher-MD-main" rmdir /s /q "Cipher-MD-main"
+:: 6. Smart Install - Preserve .env and optionally node_modules
+if exist "Cipher-MD-main\.env" (
+    echo [INFO] Backing up existing .env file...
+    copy /Y "Cipher-MD-main\.env" ".env.backup" >nul
+)
+
+set "CLEAN_INSTALL=Y"
+if exist "Cipher-MD-main\node_modules" (
+    echo.
+    echo [INFO] Existing node_modules found.
+    set /p CLEAN_INSTALL="Do you want to do a clean install and re-download all modules? (Y/N): "
+)
+
+if /i "!CLEAN_INSTALL!"=="Y" (
+    if exist "Cipher-MD-main" (
+        echo Removing old files for a clean install...
+        rmdir /s /q "Cipher-MD-main"
+    )
+) else (
+    echo Keeping existing node_modules. Only missing/updated modules will be downloaded.
+)
 
 echo Extracting files...
 tar -xf Cipher-MD.zip
 cd Cipher-MD-main
+
+if exist "..\.env.backup" (
+    echo [INFO] Restoring backed up .env file...
+    copy /Y "..\.env.backup" ".env" >nul
+    del "..\.env.backup"
+)
 
 :: 3. Handle .env Overwrite
 set "CREATE_ENV=Y"
