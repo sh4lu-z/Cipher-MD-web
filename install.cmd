@@ -198,17 +198,9 @@ if %errorlevel% equ 0 (
     echo @echo off > "!BIN_PATH!\cipher-env.bat"
     echo notepad "%CD%\.env" >> "!BIN_PATH!\cipher-env.bat"
     
-    :: Add to PATH if not exists
-    echo ;!PATH!; | find /C /I ";%APPDATA%\.sh4lu-z\bin;" >nul
-    if !errorlevel! neq 0 (
-        for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v PATH 2^>nul') do set "USER_PATH=%%B"
-        if "!USER_PATH!"=="" (
-            setx PATH "%APPDATA%\.sh4lu-z\bin" >nul
-        ) else (
-            setx PATH "!USER_PATH!;%APPDATA%\.sh4lu-z\bin" >nul
-        )
-        set "PATH=!PATH!;%APPDATA%\.sh4lu-z\bin"
-    )
+    :: Add to PATH safely using PowerShell to prevent corruption (max 1024 chars bug in setx)
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$p = [Environment]::GetEnvironmentVariable('Path', 'User'); if ($p -notmatch [regex]::Escape('%APPDATA%\.sh4lu-z\bin')) { $newPath = $p; if ($newPath -and -not $newPath.EndsWith(';')) { $newPath += ';' }; $newPath += '%APPDATA%\.sh4lu-z\bin'; [Environment]::SetEnvironmentVariable('Path', $newPath, 'User') }"
+    set "PATH=!PATH!;%APPDATA%\.sh4lu-z\bin"
 
     :: Desktop Shortcuts
     set DESKTOP_PATH=%USERPROFILE%\Desktop\Cipher MD
@@ -266,17 +258,9 @@ if %errorlevel% equ 0 (
     echo @echo off > "!BIN_PATH!\cipher-restart.bat"
     echo docker restart cipher-md >> "!BIN_PATH!\cipher-restart.bat"
 
-    :: Add to PATH if not exists
-    echo ;!PATH!; | find /C /I ";%APPDATA%\.sh4lu-z\bin;" >nul
-    if !errorlevel! neq 0 (
-        for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v PATH 2^>nul') do set "USER_PATH=%%B"
-        if "!USER_PATH!"=="" (
-            setx PATH "%APPDATA%\.sh4lu-z\bin" >nul
-        ) else (
-            setx PATH "!USER_PATH!;%APPDATA%\.sh4lu-z\bin" >nul
-        )
-        set "PATH=!PATH!;%APPDATA%\.sh4lu-z\bin"
-    )
+    :: Add to PATH safely using PowerShell to prevent corruption (max 1024 chars bug in setx)
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$p = [Environment]::GetEnvironmentVariable('Path', 'User'); if ($p -notmatch [regex]::Escape('%APPDATA%\.sh4lu-z\bin')) { $newPath = $p; if ($newPath -and -not $newPath.EndsWith(';')) { $newPath += ';' }; $newPath += '%APPDATA%\.sh4lu-z\bin'; [Environment]::SetEnvironmentVariable('Path', $newPath, 'User') }"
+    set "PATH=!PATH!;%APPDATA%\.sh4lu-z\bin"
 
     :: Desktop Shortcuts
     set DESKTOP_PATH=%USERPROFILE%\Desktop\Cipher MD
