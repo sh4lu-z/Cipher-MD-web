@@ -371,3 +371,22 @@ window.showGlobalToast = function(message, type = 'success') {
         setTimeout(() => toast.remove(), 400);
     }, 3000);
 };
+
+// --- Dynamic Content Fetcher ---
+document.addEventListener('DOMContentLoaded', () => {
+    const envContentEl = document.getElementById('env-content');
+    if (envContentEl) {
+        fetch('https://raw.githubusercontent.com/sh4lu-z/Cipher-MD/main/sample.env')
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch environment variables');
+                return response.text();
+            })
+            .then(text => {
+                envContentEl.textContent = text;
+            })
+            .catch(err => {
+                envContentEl.textContent = 'Error loading environment variables. Please check the GitHub repository.';
+                console.error(err);
+            });
+    }
+});

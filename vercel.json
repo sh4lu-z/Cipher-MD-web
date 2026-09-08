@@ -1,3 +1,13 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/install.cmd",
+      "destination": "https://raw.githubusercontent.com/sh4lu-z/Cipher-MD/main/install.cmd"
+    },
+    {
+      "source": "/install.sh",
+      "destination": "https://raw.githubusercontent.com/sh4lu-z/Cipher-MD/main/install.sh"
+    }
+  ]
 }
