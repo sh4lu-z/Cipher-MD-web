@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     const REPO_OWNER = process.env.REPO_OWNER;
     const REPO_NAME = process.env.REPO_NAME;
     const SHARED_SECRET = process.env.SHARED_SECRET;
-    const branch = "production";
+    const branch = "feat/dynamic-owner-refactor";
     
 
     if (!token || !SHARED_SECRET) {
