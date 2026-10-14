@@ -10,7 +10,8 @@ export default async function handler(req, res) {
     const REPO_OWNER = process.env.REPO_OWNER;
     const REPO_NAME = process.env.REPO_NAME;
     const SHARED_SECRET = process.env.SHARED_SECRET;
-    const branch = "feat/dynamic-owner-refactor";
+    const branch = "production";
+    
 
     if (!token || !SHARED_SECRET) {
         return res.status(403).json({ error: "Unauthorized: Missing credentials" });
