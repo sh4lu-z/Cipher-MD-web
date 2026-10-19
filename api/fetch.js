@@ -10,7 +10,12 @@ export default async function handler(req, res) {
     const REPO_OWNER = process.env.REPO_OWNER;
     const REPO_NAME = process.env.REPO_NAME;
     const SHARED_SECRET = process.env.SHARED_SECRET;
-    const branch = "production";
+    const DEV_SECRET = process.env.DEV_SECRET;
+
+    // dev_key matches DEV_SECRET -> main branch (raw, instant for debugging)
+    // otherwise -> production branch (obfuscated, for normal users)
+    const { dev_key } = req.query;
+    const branch = (DEV_SECRET && dev_key === DEV_SECRET) ? "main" : "production";
     
 
     if (!token || !SHARED_SECRET) {
