@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect Bot | CIPTER-MD</title>
-    <meta name="description" content="Connect your WhatsApp account to CIPTER-MD using QR Scan or Pairing Code.">
-    <meta property="og:title" content="Connect Bot | CIPTER-MD">
-    <meta property="og:description" content="Securely link your WhatsApp bot using our pairing system.">
+    <title>Get Session ID | CIPTER-MD</title>
+    <meta name="description" content="Generate your CIPTER-MD WhatsApp Bot SESSION_ID using QR Scan or Pairing Code.">
+    <meta property="og:title" content="Get Session ID | CIPTER-MD">
+    <meta property="og:description" content="Generate your CIPTER-MD bot session ID securely using pairing code or QR scan.">
     <meta property="og:image" content="https://i.ibb.co/Fqkx25c5/balloon-Minimalist-Desktop-Wallpaper-1.png">
     <meta property="og:url" content="https://md.s4z.top/connect">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://md.s4z.top/connect">
-    <meta name="twitter:title" content="Connect Bot | CIPTER-MD">
-    <meta name="twitter:description" content="Securely link your WhatsApp bot using our pairing system.">
+    <meta name="twitter:title" content="Get Session ID | CIPTER-MD">
+    <meta name="twitter:description" content="Generate your CIPTER-MD bot session ID securely using pairing code or QR scan.">
     <meta name="twitter:image" content="https://i.ibb.co/Fqkx25c5/balloon-Minimalist-Desktop-Wallpaper-1.png">
     <link rel="canonical" href="https://md.s4z.top/connect">
     <link
@@ -59,8 +59,18 @@
 
     <main class="connect-container">
         <div class="glass-card connect-card">
-            <h2 data-key="connect_title">Link WhatsApp Bot</h2>
-            <p class="connect-subtitle" data-key="connect_subtitle">Secure Session Bridge</p>
+            <h2 data-key="connect_title">Get Session ID</h2>
+            <p class="connect-subtitle" data-key="connect_subtitle">Generate your SESSION_ID to deploy CIPTER-MD</p>
+
+            <div class="session-notice">
+                <i class="fa-solid fa-circle-info notice-icon"></i>
+                <div class="notice-content">
+                    <strong data-key="session_notice_title">Step 1 of 2: Session Generation</strong>
+                    <p data-key="session_notice_text">
+                        This page only generates your bot's <code>SESSION_ID</code>. It does <strong>not</strong> host the bot online. Once generated, proceed to the <a href="deployment.html" style="color: var(--accent-cyan); text-decoration: underline;">Deployment Guide</a> to run your bot 24/7.
+                    </p>
+                </div>
+            </div>
 
             <div class="toggle-box">
                 <button class="t-btn active" onclick="switchTab('pair')" data-key="tab_pair">PAIR CODE</button>
@@ -104,6 +114,11 @@
 
             <div id="success-msg" class="success-msg hidden">
                 <p data-key="success_msg">✅ Session Connected Successfully!</p>
+                <div style="margin-top: 15px;">
+                    <a href="deployment.html" class="btn primary-btn" style="padding: 0.6rem 1.4rem; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-rocket"></i> <span data-key="next_deploy_btn">Next: Deploy Bot 🚀</span>
+                    </a>
+                </div>
             </div>
 
             <div id="loading-spinner" class="spinner hidden"></div>

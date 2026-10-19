@@ -21,8 +21,50 @@
 
 .connect-subtitle {
     color: var(--text-secondary);
-    margin-bottom: 2rem;
+    margin-bottom: 1.2rem;
     font-size: 0.95rem;
+}
+
+/* Session Notice Banner */
+.session-notice {
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+}
+
+.session-notice .notice-icon {
+    color: var(--accent-cyan);
+    font-size: 1.15rem;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.session-notice strong {
+    display: block;
+    color: #fff;
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+}
+
+.session-notice p {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.session-notice code {
+    background: rgba(0, 240, 255, 0.15);
+    color: var(--accent-cyan);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: monospace;
 }
 
 /* Tabs */
