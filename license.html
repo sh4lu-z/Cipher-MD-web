@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>License | CIPTER-MD</title>
+    <meta name="description" content="Official End-User License Agreement (EULA) and software license for CIPTER-MD WhatsApp AI Bot.">
+    <meta property="og:title" content="License | CIPTER-MD">
+    <meta property="og:description" content="Official End-User License Agreement for CIPTER-MD.">
+    <meta property="og:image" content="https://i.ibb.co/Fqkx25c5/balloon-Minimalist-Desktop-Wallpaper-1.png">
+    <meta property="og:url" content="https://md.s4z.top/license">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://md.s4z.top/license">
+    <meta name="twitter:title" content="License | CIPTER-MD">
+    <meta name="twitter:description" content="Official End-User License Agreement for CIPTER-MD.">
+    <meta name="twitter:image" content="https://i.ibb.co/Fqkx25c5/balloon-Minimalist-Desktop-Wallpaper-1.png">
+    <link rel="canonical" href="https://md.s4z.top/license">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <!-- Markdown Parser & Sanitizer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+    <style>
+        .doc-container {
+            max-width: 850px;
+            margin: 120px auto 50px;
+            padding: 2.5rem;
+        }
+
+        .license-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 1.2rem;
+        }
+
+        .license-header h1 {
+            margin: 0;
+            color: var(--accent-cyan);
+            font-size: 2.2rem;
+        }
+
+        .license-header p {
+            color: var(--text-secondary);
+            margin: 0.4rem 0 0;
+            font-size: 0.9rem;
+        }
+
+        .license-markdown h1 {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin: 1.8rem 0 1rem;
+        }
+
+        .license-markdown h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 1.8rem 0 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 0.4rem;
+        }
+
+        .license-markdown h3 {
+            font-size: 1.15rem;
+            color: #e0e0e0;
+            margin: 1.4rem 0 0.6rem;
+        }
+
+        .license-markdown p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .license-markdown ul,
+        .license-markdown ol {
+            margin: 0.8rem 0 1.2rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .license-markdown li {
+            margin-bottom: 0.5rem;
+        }
+
+        .license-markdown a {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        .license-markdown strong {
+            color: #fff;
+        }
+
+        .license-markdown hr {
+            border: none;
+            border-top: 1px solid var(--glass-border);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <nav class="navbar glass">
+        <div class="nav-brand">
+            <div style="display:flex; align-items:center;">
+                <a href="javascript:history.back()" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <div class="logo">CIPTER<span>-MD</span></div>
+            </div>
+            <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" data-key="nav_home">Home</a>
+            <a href="protect.html" data-key="protect_nav">Protect Profile</a>
+            <button id="lang-toggle" class="lang-btn">සිංහල</button>
+        </div>
+    </nav>
+
+    <main class="doc-container glass-card reveal active">
+        <div class="license-header">
+            <div>
+                <h1>Software License</h1>
+                <p>Live Document synced directly from GitHub repository</p>
+            </div>
+            <a href="https://github.com/sh4lu-z/Cipher-MD/blob/main/LICENSE.md" target="_blank"
+                class="btn secondary-btn"
+                style="padding: 0.5rem 1rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 8px;">
+                <i class="fa-brands fa-github"></i> View on GitHub
+            </a>
+        </div>
+
+        <div id="license-loader" style="text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
+            <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.2rem; color: var(--accent-cyan); margin-bottom: 1rem;"></i>
+            <p>Loading license agreement from GitHub...</p>
+        </div>
+
+        <div id="license-body" class="license-markdown" style="display: none;"></div>
+    </main>
+
+    <footer class="modern-footer">
+        <div class="footer-content">
+            <div class="footer-col brand">
+                <h3>CIPTER<span>-MD</span></h3>
+                <p data-key="footer_desc">Advanced WhatsApp AI Bot Core Engine. Built for performance, security, and
+                    seamless automation.</p>
+            </div>
+            <div class="footer-col links">
+                <h4 data-key="footer_links">QUICK LINKS</h4>
+                <ul>
+                    <li><a href="faq.html" data-key="nav_faq"><i class="fa-solid fa-circle-question"></i> FAQ</a></li>
+                    <li><a href="license.html" data-key="nav_license"><i class="fa-solid fa-scale-balanced"></i> License</a></li>
+                    <li><a href="protect.html" data-key="protect_nav"><i class="fa-solid fa-shield-halved"></i> Protect Profile</a></li>
+                    <li><a href="privacy-policy.html" data-key="footer_privacy"><i
+                                class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html" data-key="footer_terms"><i
+                                class="fa-solid fa-file-contract"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col connect">
+                <h4 data-key="footer_connect">CONNECT</h4>
+                <div class="social-icons">
+                    <a href="https://whatsapp.com/channel/0029Vb6o3EiGJP8CoA3Olr28" target="_blank"
+                        title="WhatsApp Channel" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://shalukagimhan.com/contact/" target="_blank" title="Contact Shaluka Gimhan"
+                        class="social-btn"><i class="fa-solid fa-globe"></i></a>
+                    <a href="https://github.com/sh4lu-z" target="_blank" title="GitHub" class="social-btn"><i
+                            class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 CIPTER-MD. All rights reserved. | <a href="https://shalukagimhan.com/" target="_blank" style="color: inherit; text-decoration: none; opacity: 0.5; font-size: 0.75rem;">Dev</a></p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        async function loadLicense() {
+            const loader = document.getElementById('license-loader');
+            const body = document.getElementById('license-body');
+
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/sh4lu-z/Cipher-MD/main/LICENSE.md?t=' + Date.now());
+                if (!response.ok) {
+                    throw new Error('Failed to load license content from GitHub.');
+                }
+                const markdown = await response.text();
+                body.innerHTML = DOMPurify.sanitize(marked.parse(markdown));
+                loader.style.display = 'none';
+                body.style.display = 'block';
+            } catch (err) {
+                loader.innerHTML = `
+                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; color: #ff4757; margin-bottom: 1rem;"></i>
+                    <p style="color: #ff4757; margin-bottom: 1rem;">Unable to load license directly from repository.</p>
+                    <a href="https://github.com/sh4lu-z/Cipher-MD/blob/main/LICENSE.md" target="_blank" class="btn primary-btn" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">View on GitHub</a>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadLicense);
+    </script>
+</body>
+
+</html>
