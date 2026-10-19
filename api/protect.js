@@ -199,16 +199,36 @@ export default async function handler(req, res) {
             const hashSet = new Set(gitData.hashes || []);
             const currentLogs = Array.isArray(gitData.logs) ? gitData.logs : [];
 
-            // Cooldown check (1 hour)
-            const COOLDOWN_MS = 60 * 60 * 1000;
-            const recentLog = currentLogs.find(log =>
-                (log.target === targetHash || log.ip === ipHash) && (now - log.timestamp < COOLDOWN_MS)
-            );
+            // Rate limiting & Tiered cooldown
+            const userLogs = currentLogs.filter(log =>
+                (log.target === targetHash || log.ip === ipHash)
+            ).sort((a, b) => b.timestamp - a.timestamp);
 
-            if (recentLog) {
-                const remainingMinutes = Math.ceil((COOLDOWN_MS - (now - recentLog.timestamp)) / 60000);
+            const last45MinLogs = userLogs.filter(l => now - l.timestamp < 45 * 60 * 1000);
+
+            // Tier 2: If user made 4 or more requests within 3 minutes, enforce 45-minute cooldown
+            if (last45MinLogs.length >= 4) {
+                const burstLogs = last45MinLogs.slice(0, 4);
+                const oldestInBurst = burstLogs[burstLogs.length - 1].timestamp;
+                const newestInBurst = burstLogs[0].timestamp;
+                if ((newestInBurst - oldestInBurst) <= (3 * 60 * 1000 + 10000)) {
+                    const penaltyRemaining = (45 * 60 * 1000) - (now - newestInBurst);
+                    if (penaltyRemaining > 0) {
+                        const remainingMin = Math.ceil(penaltyRemaining / 60000);
+                        return res.status(429).json({
+                            error: `Repeated requests detected. 45-minute cooldown active. Please wait ${remainingMin} minute(s).`
+                        });
+                    }
+                }
+            }
+
+            // Tier 1: Normal limit - Maximum 2 requests per 1 minute
+            const last1MinLogs = userLogs.filter(l => now - l.timestamp < 60 * 1000);
+            if (last1MinLogs.length >= 2) {
+                const oldestInWindow = last1MinLogs[last1MinLogs.length - 1].timestamp;
+                const waitSec = Math.ceil((60 * 1000 - (now - oldestInWindow)) / 1000);
                 return res.status(429).json({
-                    error: `Action cooldown active. Please wait ${remainingMinutes} minute(s) before changing protection status.`
+                    error: `Rate limit: Maximum 2 requests per minute. Please wait ${waitSec > 0 ? waitSec : 1} second(s).`
                 });
             }
 
@@ -232,8 +252,9 @@ export default async function handler(req, res) {
                 hashSet.delete(targetHash);
             }
 
-            // Auto-prune logs older than 1 hour
-            const validLogs = currentLogs.filter(l => (now - l.timestamp) < COOLDOWN_MS);
+            // Auto-prune logs older than 1 hour (retains history needed for 45-min cooldown)
+            const LOG_RETENTION_MS = 60 * 60 * 1000;
+            const validLogs = currentLogs.filter(l => (now - l.timestamp) < LOG_RETENTION_MS);
             validLogs.push({
                 ip: ipHash,
                 target: targetHash,
