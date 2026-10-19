@@ -279,12 +279,14 @@ h1.glitch {
     flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
 }
 
 .hero-image img {
     max-width: 100%;
     width: 500px;
+    height: auto;
     border-radius: 20px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     animation: pulse-glow 4s infinite alternate;
