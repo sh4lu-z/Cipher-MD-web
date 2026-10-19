@@ -131,10 +131,9 @@ export default async function handler(req, res) {
                 return res.status(403).json({ error: 'Security validation failed: Token missing.' });
             }
 
-            const now = Date.now();
             const clientT = parseInt(clientTime);
-            if (isNaN(clientT) || Math.abs(now - clientT) > 60000) {
-                return res.status(403).json({ error: 'Security validation failed: Request expired.' });
+            if (isNaN(clientT)) {
+                return res.status(403).json({ error: 'Security validation failed: Invalid timestamp.' });
             }
 
             const timeWindow = Math.floor(clientT / 30000);
@@ -161,6 +160,7 @@ export default async function handler(req, res) {
             const currentLogs = Array.isArray(gitData.logs) ? gitData.logs : [];
 
             // Cooldown check (1 hour)
+            const now = Date.now();
             const COOLDOWN_MS = 60 * 60 * 1000;
             const recentLog = currentLogs.find(log => 
                 (log.target === targetHash || log.ip === ipHash) && (now - log.timestamp < COOLDOWN_MS)

@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
     try {
         if (file === 'version.txt') {
-            const versionUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/version.txt?ref=${branch}`;
+            const versionUrl = new URL(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/version.txt?ref=${branch}`);
             const verResponse = await fetch(versionUrl, {
                 headers: {
                     'Authorization': `Bearer ${GITHUB_TOKEN}`,
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
             return res.status(200).send(versionText);
         }
 
-        const listUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/${branch}?recursive=1`;
+        const listUrl = new URL(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/${branch}?recursive=1`);
         const treeResponse = await fetch(listUrl, {
             headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
         });
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
 
                 if (item.path.startsWith('node_modules/') || item.path.startsWith('.git/')) continue;
 
-                const fileUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${item.path}?ref=${branch}`;
+                const fileUrl = new URL(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${item.path}?ref=${branch}`);
                 const fileResponse = await fetch(fileUrl, {
                     headers: {
                         'Authorization': `Bearer ${GITHUB_TOKEN}`,
