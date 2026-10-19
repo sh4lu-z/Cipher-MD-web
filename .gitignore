@@ -1,1 +1,5 @@
 Syntiox-Sync-Backend/
+test/
+node_modules/
+.env
+.env*.local

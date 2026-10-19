@@ -138,7 +138,19 @@ const translations = {
         toast_error: "Server Error",
         toast_success: "Session Connected!",
         toast_connecting_sync: "Connecting to sync...",
-        toast_scan_qr: "Scan this QR Code via WhatsApp"
+        toast_scan_qr: "Scan this QR Code via WhatsApp",
+        protect_nav: "Protect Profile",
+        protect_title: "Profile Protection",
+        protect_subtitle: "Zero-Knowledge Profile Photo Privacy",
+        protect_instruction: "Select country & enter your WhatsApp phone number.",
+        protect_btn: "Protect Profile",
+        unprotect_btn: "Remove Protection",
+        protect_note_title: "How it works:",
+        protect_note_text: "Your number is converted into a secure, irreversible cryptographic hash (SHA-256). The actual phone number is never stored in plain text.",
+        toast_protect_success: "Profile protection enabled successfully!",
+        toast_unprotect_success: "Profile protection removed successfully!",
+        toast_already_protected: "This number is already protected.",
+        toast_not_protected: "This number is not in the protection list."
     },
     si: {
         nav_overview: "දළ විශ්ලේෂණය",
@@ -267,7 +279,19 @@ const translations = {
         toast_error: "සර්වර් දෝෂයකි",
         toast_success: "සාර්ථකව සම්බන්ධ විය!",
         toast_connecting_sync: "සර්වර් එකට සම්බන්ධ වෙමින්...",
-        toast_scan_qr: "WhatsApp මගින් මෙම QR කේතය ස්කෑන් කරන්න"
+        toast_scan_qr: "WhatsApp මගින් මෙම QR කේතය ස්කෑන් කරන්න",
+        protect_nav: "ප්‍රොෆයිල් ආරක්ෂාව",
+        protect_title: "ප්‍රොෆයිල් ආරක්ෂාව",
+        protect_subtitle: "Zero-Knowledge Profile ඡායාරූප පෞද්ගලිකත්වය",
+        protect_instruction: "රට තෝරා ඔබගේ WhatsApp දුරකථන අංකය ඇතුළත් කරන්න.",
+        protect_btn: "ප්‍රොෆයිල් ආරක්ෂා කරන්න",
+        unprotect_btn: "ආරක්ෂාව ඉවත් කරන්න",
+        protect_note_title: "ක්‍රියාකාරීත්වය:",
+        protect_note_text: "ඔබගේ දුරකථන අංකය කිසිවිටෙකත් සාමාන්‍ය ආකාරයෙන් ගබඩා නොකෙරේ. එය ආපසු හැරවිය නොහැකි SHA-256 Cryptographic Hash එකක් බවට පත් කර ආරක්ෂිතව ගබඩා කෙරේ.",
+        toast_protect_success: "ප්‍රොෆයිල් ආරක්ෂාව සාර්ථකව සක්‍රිය කරන ලදී!",
+        toast_unprotect_success: "ප්‍රොෆයිල් ආරක්ෂාව සාර්ථකව ඉවත් කරන ලදී!",
+        toast_already_protected: "මෙම අංකය දැනටමත් ආරක්ෂිත ලැයිස්තුවේ පවතී.",
+        toast_not_protected: "මෙම අංකය ආරක්ෂිත ලැයිස්තුවේ නොමැත."
     }
 };
 
