@@ -1,12 +1,5 @@
 import crypto from 'crypto';
 
-// In-memory cache for fast lookup
-let memoryCache = {
-    hashes: new Set(),
-    sha: null,
-    lastFetched: 0
-};
-const CACHE_TTL = 30000; // 30 seconds cache for GET checks
 
 function cleanNumber(raw) {
     if (!raw) return '';
@@ -19,6 +12,24 @@ function getHash(num, salt) {
     return crypto.createHmac('sha256', salt).update(num).digest('hex');
 }
 
+async function fetchRawData(owner, repo, filePath) {
+    try {
+        const url = `https://raw.githubusercontent.com/${owner}/${repo}/main/${filePath}?t=${Date.now()}`;
+        const res = await fetch(url, { headers: { 'User-Agent': 'Cipher-MD-Web' } });
+        if (res.ok) {
+            const parsed = await res.json();
+            return {
+                exists: true,
+                hashes: Array.isArray(parsed) ? parsed : (Array.isArray(parsed.hashes) ? parsed.hashes : []),
+                logs: Array.isArray(parsed.logs) ? parsed.logs : []
+            };
+        }
+    } catch {
+        // Fallback to GitHub API if raw fetch fails
+    }
+    return null;
+}
+
 async function fetchFromGitHub(owner, repo, filePath, token) {
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
     const headers = {
@@ -29,7 +40,7 @@ async function fetchFromGitHub(owner, repo, filePath, token) {
 
     const res = await fetch(url, { headers });
     if (res.status === 404) {
-        return { exists: false, sha: null, hashes: [] };
+        return { exists: false, sha: null, hashes: [], logs: [] };
     }
     if (!res.ok) {
         const errorText = await res.text();
@@ -42,19 +53,20 @@ async function fetchFromGitHub(owner, repo, filePath, token) {
     try {
         parsed = JSON.parse(content);
     } catch {
-        parsed = { hashes: [] };
+        parsed = { hashes: [], logs: [] };
     }
 
     const hashList = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.hashes) ? parsed.hashes : []);
+    const logList = Array.isArray(parsed.logs) ? parsed.logs : [];
     return {
         exists: true,
         sha: data.sha,
-        hashes: hashList
+        hashes: hashList,
+        logs: logList
     };
 }
 
 export default async function handler(req, res) {
-    // CORS configuration
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -69,7 +81,6 @@ export default async function handler(req, res) {
     const FILE_PATH = process.env.PROTECT_FILE_PATH || 'protected_numbers.json';
     const HASH_SALT = process.env.PROTECT_SALT || 'cipher_md_salt_2026';
 
-    // Fast check endpoint for bot
     if (req.method === 'GET') {
         const queryNum = req.query.check || req.query.number;
         if (!queryNum) {
@@ -84,31 +95,27 @@ export default async function handler(req, res) {
         }
 
         const targetHash = getHash(cleaned, HASH_SALT);
-        const now = Date.now();
 
-        // Refresh cache if stale
-        if (now - memoryCache.lastFetched > CACHE_TTL) {
+        // Fetch via raw.githubusercontent.com to avoid GitHub API token rate limits
+        let rawData = await fetchRawData(REPO_OWNER, REPO_NAME, FILE_PATH);
+        if (!rawData) {
             try {
-                const gitData = await fetchFromGitHub(REPO_OWNER, REPO_NAME, FILE_PATH, GITHUB_TOKEN);
-                memoryCache.hashes = new Set(gitData.hashes);
-                memoryCache.sha = gitData.sha;
-                memoryCache.lastFetched = now;
-            } catch (err) {
-                console.error('[Protect API] Cache refresh failed:', err.message);
+                rawData = await fetchFromGitHub(REPO_OWNER, REPO_NAME, FILE_PATH, GITHUB_TOKEN);
+            } catch {
+                rawData = { hashes: [] };
             }
         }
 
-        const isFound = memoryCache.hashes.has(targetHash);
+        const isFound = rawData.hashes.includes(targetHash);
         res.setHeader('Content-Type', 'text/plain');
         res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=50');
         return res.status(200).send(isFound ? 'YES' : 'NO');
     }
 
-    // Add or remove protection endpoint
     if (req.method === 'POST') {
         try {
             const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-            const { number, action } = body;
+            const { number, action, token, t: clientTime } = body;
 
             if (!action || !['protect', 'remove'].includes(action)) {
                 return res.status(400).json({ error: 'Invalid action. Must be "protect" or "remove".' });
@@ -119,14 +126,52 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Invalid phone number length. Must be 7 to 15 digits without symbols.' });
             }
 
+            // Web token validation
+            if (!token || !clientTime) {
+                return res.status(403).json({ error: 'Security validation failed: Token missing.' });
+            }
+
+            const now = Date.now();
+            const clientT = parseInt(clientTime);
+            if (isNaN(clientT) || Math.abs(now - clientT) > 60000) {
+                return res.status(403).json({ error: 'Security validation failed: Request expired.' });
+            }
+
+            const timeWindow = Math.floor(clientT / 30000);
+            const expectedToken = crypto.createHash('sha256')
+                .update(`${cleaned}:${action}:${timeWindow}:${HASH_SALT}`)
+                .digest('hex');
+
+            if (token !== expectedToken) {
+                return res.status(403).json({ error: 'Security validation failed: Invalid token.' });
+            }
+
             if (!GITHUB_TOKEN) {
                 return res.status(500).json({ error: 'Server configuration error: GITHUB_TOKEN is missing.' });
             }
 
             const targetHash = getHash(cleaned, HASH_SALT);
+
+            // Anonymized IP hash
+            const clientIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || 'unknown';
+            const ipHash = crypto.createHash('sha256').update(clientIp + HASH_SALT).digest('hex').substring(0, 16);
+
             const gitData = await fetchFromGitHub(REPO_OWNER, REPO_NAME, FILE_PATH, GITHUB_TOKEN);
-            let currentHashes = gitData.hashes;
-            const hashSet = new Set(currentHashes);
+            const hashSet = new Set(gitData.hashes || []);
+            const currentLogs = Array.isArray(gitData.logs) ? gitData.logs : [];
+
+            // Cooldown check (1 hour)
+            const COOLDOWN_MS = 60 * 60 * 1000;
+            const recentLog = currentLogs.find(log => 
+                (log.target === targetHash || log.ip === ipHash) && (now - log.timestamp < COOLDOWN_MS)
+            );
+
+            if (recentLog) {
+                const remainingMinutes = Math.ceil((COOLDOWN_MS - (now - recentLog.timestamp)) / 60000);
+                return res.status(429).json({
+                    error: `Action cooldown active. Please wait ${remainingMinutes} minute(s) before changing protection status.`
+                });
+            }
 
             if (action === 'protect') {
                 if (hashSet.has(targetHash)) {
@@ -148,11 +193,21 @@ export default async function handler(req, res) {
                 hashSet.delete(targetHash);
             }
 
+            // Auto-prune logs older than 1 hour
+            const validLogs = currentLogs.filter(l => (now - l.timestamp) < COOLDOWN_MS);
+            validLogs.push({
+                ip: ipHash,
+                target: targetHash,
+                action: action,
+                timestamp: now
+            });
+
             const updatedArray = Array.from(hashSet);
             const payloadContent = {
                 updated_at: new Date().toISOString(),
                 total: updatedArray.length,
-                hashes: updatedArray
+                hashes: updatedArray,
+                logs: validLogs
             };
 
             const commitUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
@@ -180,13 +235,6 @@ export default async function handler(req, res) {
                 const errBody = await commitRes.text();
                 throw new Error(`GitHub Commit failed (${commitRes.status}): ${errBody}`);
             }
-
-            const commitData = await commitRes.json();
-
-            // Update local cache
-            memoryCache.hashes = hashSet;
-            memoryCache.sha = commitData.content?.sha || null;
-            memoryCache.lastFetched = Date.now();
 
             return res.status(200).json({
                 success: true,
