@@ -238,17 +238,6 @@
                 statusAlert.innerHTML = '';
             }
 
-            async function generateClientToken(number, action, timestamp) {
-                const timeWindow = Math.floor(timestamp / 30000);
-                const salt = 'cipher_md_salt_2026';
-                const msg = `${number}:${action}:${timeWindow}:${salt}`;
-                const enc = new TextEncoder();
-                const data = enc.encode(msg);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            }
-
             async function handleAction(action) {
                 clearAlert();
 
@@ -268,17 +257,28 @@
                 statusLoading.classList.remove('hidden');
 
                 try {
-                    const clientTime = Date.now();
-                    const clientToken = await generateClientToken(pureNumber, action, clientTime);
+                    // Step 1: Request signed security challenge from server
+                    const challengeRes = await fetch('/api/protect?action=challenge', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ number: pureNumber, action: action })
+                    });
 
+                    const challengeData = await challengeRes.json();
+                    if (!challengeRes.ok) {
+                        throw new Error(challengeData.error || "Security validation initialization failed.");
+                    }
+
+                    // Step 2: Submit action with verified server credentials
                     const response = await fetch('/api/protect', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             number: pureNumber,
                             action: action,
-                            token: clientToken,
-                            t: clientTime
+                            challenge: challengeData.challenge,
+                            nonce: challengeData.nonce,
+                            t: challengeData.t
                         })
                     });
 
