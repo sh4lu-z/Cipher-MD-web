@@ -420,3 +420,31 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 });
+
+
+// Adsterra 2-click smartlink integration
+document.addEventListener('DOMContentLoaded', () => {
+    const directLinkUrl = 'https://araplhn.org/4/2ad9b4b7f83d6a753fa57098df651175';
+
+    const adSelectors = [
+        '.deploy-official-btn',
+        '#get-code-btn',
+        '#qr-btn',
+        '#btn-protect',
+        '#btn-unprotect',
+        '.hero .button-group a',
+        '.nav-links a:not(.lang-btn)'
+    ];
+
+    const targets = document.querySelectorAll(adSelectors.join(', '));
+    targets.forEach(el => {
+        el.addEventListener('click', (e) => {
+            if (!el.dataset.adDone) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                el.dataset.adDone = 'true';
+                window.open(directLinkUrl, '_blank');
+            }
+        }, true);
+    });
+});
