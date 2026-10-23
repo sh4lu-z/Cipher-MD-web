@@ -750,3 +750,24 @@ h1.glitch {
         padding: 5px 10px;
     }
 }
+
+
+/* Native ad container */
+.native-ad-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    margin: 2.5rem auto 1rem auto;
+    overflow: hidden;
+    min-height: 80px;
+}
+
+.native-ad-wrapper > div {
+    width: 100%;
+}
+
+.connect-container {
+    flex-direction: column !important;
+}
